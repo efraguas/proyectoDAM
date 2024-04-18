@@ -1,5 +1,6 @@
 from bs4 import *
 import requests
+import json
 from pymongo import MongoClient
 
 # definimos la url a descargar
@@ -31,7 +32,7 @@ for items in productos:
     productos = {
         "nombre producto": texto_producto.replace('\n', '').replace('\t', ''),
         "marca": marca.replace('\n', '').replace('\t', ''),
-        "precio": precio.replace('\n', '').replace('\t', '').replace(" €+IVA", '')
+        "precio": float(precio.replace('\n', '').replace('\t', '').replace(" €+IVA", '').replace(",", '.'))
     }
     lista_marca.append(marca.replace('\n', '').replace('\t', ''))
     lista_nombres.append(texto_producto.replace('\n', '').replace('\t', ''))
@@ -39,6 +40,11 @@ for items in productos:
     datos_productos.append(productos)
     print(texto_producto.replace('\n', '').replace('\t', ''), precio.replace('\n', '').replace('\t', ''))
     print(marca.replace('\n', '').replace('\t', ''))
+
+
+# Almacenar en JSON
+with open("productos.json", "w") as JSON:
+    json.dump(datos_productos, JSON)
 
 # Almacenar en la colecccion de MongoDB
 
