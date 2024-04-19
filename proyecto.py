@@ -38,8 +38,6 @@ for items in productos:
     lista_nombres.append(texto_producto.replace('\n', '').replace('\t', ''))
     lista_precios.append(precio.replace('\n', '').replace('\t', ''))
     datos_productos.append(productos)
-    print(texto_producto.replace('\n', '').replace('\t', ''), precio.replace('\n', '').replace('\t', ''))
-    print(marca.replace('\n', '').replace('\t', ''))
 
 
 # Almacenar en JSON
