@@ -64,13 +64,13 @@ class TiendaDentista(CrawlSpider):
         # detalle del producto aqui es donde realizamos la extraccion (callback)
         Rule(
             LinkExtractor(
-                allow=r'\d{5}',
+                allow=r'\d+',
                 restrict_xpaths="//div[@class='columns-container']//a[@class='product_img_link']"
             ), follow=True, callback='parse_web'),
     )
 
-    @staticmethod
-    def parse_web(response):
+
+    def parse_web(self, response):
         """
         nombre = selector.xpath("//h1[@itemprop='name']/text()").get()
         categoria = selector.xpath("//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()").get()
@@ -83,19 +83,22 @@ class TiendaDentista(CrawlSpider):
         float(precio.replace('\t', '').replace(" €+IVA", '').replace(",", '.'))
 
         item = ItemLoader(Producto(), selector)
+        try:
 
-        item.add_xpath('nombre', ".//h1[@itemprop='name']/text()"), MapCompose(
-            lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-        item.add_xpath('categoria',
-                       ".//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()"), MapCompose(
-            lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-        item.add_xpath('subcategoria',
-                       ".//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()"), MapCompose(
-            lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-        item.add_xpath('marca', ".//p[@id='product_manufacturer']//a/text()"), MapCompose(
-            lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-        item.add_xpath('url', ".//p[@class='our_price_display']//meta[@itemprop='url']/@content"), MapCompose(
-            lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-        item.add_value('precio', precio)
+            item.add_xpath('nombre', ".//h1[@itemprop='name']/text()"), MapCompose(
+                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
+            item.add_xpath('categoria',
+                           ".//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()"), MapCompose(
+                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
+            item.add_xpath('subcategoria',
+                           ".//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()"), MapCompose(
+                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
+            item.add_xpath('marca', ".//p[@id='product_manufacturer']//a/text()"), MapCompose(
+                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
+            item.add_xpath('url', ".//p[@class='our_price_display']//meta[@itemprop='url']/@content"), MapCompose(
+                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
+            item.add_value('precio', precio)
+        except:
+            pass
 
         yield item.load_item()
