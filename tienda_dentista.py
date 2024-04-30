@@ -5,6 +5,7 @@ from scrapy.selector import Selector
 from scrapy.linkextractors import LinkExtractor
 from scrapy.loader import ItemLoader
 from itemloaders.processors import MapCompose
+from scrapy.crawler import CrawlerProcess
 
 
 class Producto(Item):
@@ -37,7 +38,10 @@ class TiendaDentista(CrawlSpider):
         'FEED_EXPORT_ENCODING': 'utf-8'
     }
     allowed_domains = ['latiendadeldentista.com']
-    start_urls = ['https://www.latiendadeldentista.com']
+    start_urls = [
+        'https://www.latiendadeldentista.com',
+
+    ]
     download_delay = 1
 
     rules = (
@@ -45,26 +49,26 @@ class TiendaDentista(CrawlSpider):
         # paginacion horizontal a traves de la lista de categorias
         Rule(
             LinkExtractor(
-                allow=r'\d+-',
+                allow=r'\b(?!(11|21|304|420|295))\d+-\w+\b',
                 restrict_xpaths="//div[@class='subcategory-image']/a"
             ), follow=True),
         # detalle de subcategorias
         # paginacion vertical a través de la lista de subcategorias
         Rule(
             LinkExtractor(
-                allow=r'\d+-',
+                allow=r'\d+-\w+',
                 restrict_xpaths="//div[@class='subcategory-image']/a"
             ), follow=True),
         #
         # paginacion vertical a traves de los productos de las subcategorias
         Rule(
             LinkExtractor(
-                allow=r'\d+-'
+                allow=r'\d+-\w+'
             ), follow=True),
         # detalle del producto aqui es donde realizamos la extraccion (callback)
         Rule(
             LinkExtractor(
-                allow=r'\d+',
+                allow=r'\d+\w+',
                 restrict_xpaths="//div[@class='columns-container']//a[@class='product_img_link']"
             ), follow=True, callback='parse_web'),
     )
@@ -102,3 +106,14 @@ class TiendaDentista(CrawlSpider):
             pass
 
         yield item.load_item()
+
+#Ejecucion
+proceso = CrawlerProcess({
+    'FEED_FORMAT': 'json',
+    'FEED_URI': 'productos_dentales.json'
+})
+proceso.crawl(TiendaDentista)
+proceso.start()
+
+#Ejecucuion desde la terminal
+#scrapy runspider tienda_dentista.py -o productos_dentales.json
