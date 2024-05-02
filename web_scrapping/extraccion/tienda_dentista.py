@@ -7,7 +7,6 @@ from scrapy.loader import ItemLoader
 from itemloaders.processors import MapCompose
 from scrapy.crawler import CrawlerProcess
 
-
 class Producto(Item):
     """
     defino la clase producto con los atributos de la informacion que deseo extraer en este caso
@@ -39,7 +38,7 @@ class TiendaDentista(CrawlSpider):
     }
     allowed_domains = ['latiendadeldentista.com']
     start_urls = [
-        'https://www.latiendadeldentista.com',
+        'https://www.latiendadeldentista.com/',
 
     ]
     download_delay = 1
@@ -50,31 +49,27 @@ class TiendaDentista(CrawlSpider):
         Rule(
             LinkExtractor(
                 allow=r'\b(?!(11|21|304|420|295))\d+-\w+\b',
-                restrict_xpaths="//div[@class='subcategory-image']/a"
+                restrict_xpaths="//div[@id='_desktop_top_menu']"
             ), follow=True),
         # detalle de subcategorias
         # paginacion vertical a través de la lista de subcategorias
         Rule(
             LinkExtractor(
                 allow=r'\d+-\w+',
-                restrict_xpaths="//div[@class='subcategory-image']/a"
-            ), follow=True),
-        #
-        # paginacion vertical a traves de los productos de las subcategorias
-        Rule(
-            LinkExtractor(
-                allow=r'\d+-\w+'
+                restrict_xpaths="//div[@id='center_column']/ul[@class='product_list row list']"
             ), follow=True),
         # detalle del producto aqui es donde realizamos la extraccion (callback)
         Rule(
             LinkExtractor(
-                allow=r'\d+\w+',
-                restrict_xpaths="//div[@class='columns-container']//a[@class='product_img_link']"
+                allow=r'\d{5}$',
+                restrict_xpaths="//div[@class='row']"
             ), follow=True, callback='parse_web'),
     )
 
 
     def parse_web(self, response):
+
+        selector = Selector(response).get()
         """
         nombre = selector.xpath("//h1[@itemprop='name']/text()").get()
         categoria = selector.xpath("//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()").get()
@@ -82,11 +77,15 @@ class TiendaDentista(CrawlSpider):
         marca = selector.xpath("//p[@id='product_manufacturer']//a/text()").get()
         url = selector.xpath("//p[@class='our_price_display']//meta[@itemprop='url']/@content").get()
         """
-        selector = Selector(response).get()
-        precio = selector.xpath("//span[@class='our_price_display']").get()
-        float(precio.replace('\t', '').replace(" €+IVA", '').replace(",", '.'))
+        try:
+
+            precio = selector.xpath("//span[@class='our_price_display']").get()
+            float(precio.replace('\t', '').replace(" €+IVA", '').replace(",", '.'))
+        except:
+            precio = 'no disponible'
 
         item = ItemLoader(Producto(), selector)
+
         try:
 
             item.add_xpath('nombre', ".//h1[@itemprop='name']/text()"), MapCompose(
@@ -96,10 +95,10 @@ class TiendaDentista(CrawlSpider):
                 lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
             item.add_xpath('subcategoria',
                            ".//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()"), MapCompose(
-                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
+                lambda x: x.replace('\n', '').replace('\t', ''))
             item.add_xpath('marca', ".//p[@id='product_manufacturer']//a/text()"), MapCompose(
-                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-            item.add_xpath('url', ".//p[@class='our_price_display']//meta[@itemprop='url']/@content"), MapCompose(
+                lambda x: x.replace('\n', '').replace('\t', ''))
+            item.add_xpath('url', ".//p[@id='our_price_display']//meta[@itemprop='url']/@content"), MapCompose(
                 lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
             item.add_value('precio', precio)
         except:
@@ -109,8 +108,8 @@ class TiendaDentista(CrawlSpider):
 
 #Ejecucion
 proceso = CrawlerProcess({
-    'FEED_FORMAT': 'json',
-    'FEED_URI': 'productos_dentales.json'
+    'FEED_FORMAT': 'csv',
+    'FEED_URI': 'productos_dentales.csv'
 })
 proceso.crawl(TiendaDentista)
 proceso.start()
