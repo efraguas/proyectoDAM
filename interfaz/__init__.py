@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.messagebox as messagebox
 from pymongo import MongoClient
 
-
+#Interfaz de usuario de a la aplicacion
 class Interfaz:
     def __init__(self, root):
         self.root = root
