@@ -49,7 +49,7 @@ class WebDentista(CrawlSpider):
                        ]
     start_urls = [
         'https://www.latiendadeldentista.com'
-    ]
+        ]
 
     rules = (
         Rule(
@@ -73,8 +73,13 @@ class WebDentista(CrawlSpider):
         )
     )
 
-    @staticmethod
-    def format_precio(texto):
+    # Funcion formatear datos extraidos:
+    def formatear(self, texto):
+        format = texto.replace('\n', '').replace('\t', '').lower().strip()
+        return format
+
+    # Funcion formatear el precio y castearlo a float
+    def format_precio(self, texto):
         try:
             precio = texto.replace('\n', '').replace('\t', '').replace(" €", '').replace(",", '.').strip()
             float(precio)
@@ -82,16 +87,13 @@ class WebDentista(CrawlSpider):
             precio = 'Precio no diponible'
         return precio
 
-    def formatear(self, texto):
-        format = texto.replace('\n', '').replace('\t', '').lower().strip()
-        return format
-
     # Método para extraer la información de cada producto
     def parse_web(self, response):
         selector = Selector(response)
         productos = selector.xpath("//div[@class='columns-container']")
-        precio = selector.xpath(".//span[@id='our_price_display']/text()").get()
+
         item = ItemLoader(Producto(), productos)
+
         item.add_xpath('nombre', ".//h1[@itemprop='name']/text()", MapCompose(self.formatear))
         item.add_xpath('categoria', ".//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()",
                        MapCompose(self.formatear))
@@ -101,20 +103,13 @@ class WebDentista(CrawlSpider):
         item.add_xpath('marca', ".//p[@id='product_manufacturer']//a/text()", MapCompose(self.formatear))
         item.add_xpath('url', ".//p[@class='our_price_display']//meta[@itemprop='url']/@content",
                        MapCompose(self.formatear))
-        item.add_value('precio', format_precio(precio))
+        item.add_xpath('precio', ".//span[@id='our_price_display']/text()", MapCompose(self.format_precio))
+
         yield item.load_item()
 
 
-def format_precio(texto):
-    try:
-        precio = texto.replace('\n', '').replace('\t', '').replace(" €", '').replace(",", '.').strip()
-        float(precio)
-    except Exception:
-        precio = 'Precio no diponible'
-    return precio
 
-
-# Ejecucion
+# Ejecucion del script
 proceso = CrawlerProcess({
     'FEED_FORMAT': 'json',
     'FEED_URI': 'productos_dentales.json'
@@ -122,8 +117,8 @@ proceso = CrawlerProcess({
 proceso.crawl(WebDentista)
 proceso.start()
 
-
-with open('productos_dentales.json') as archivo:
+#Acceso al archivo json e insercion en la coleccion de la base de datos
+with open('tiendaDentista.json') as archivo:
     datos = json.load(archivo)
 coleccion.insert_many(datos)
 print("datos añadidos correctamente")

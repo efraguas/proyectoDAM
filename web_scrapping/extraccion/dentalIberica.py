@@ -12,7 +12,7 @@ from pymongo import MongoClient
 #Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
-coleccion = db['Proclinic']
+coleccion = db['Dental_Iberica']
 
 
 class Producto(Item):
@@ -24,18 +24,16 @@ class Producto(Item):
     precio = Field()
 
 
-class WebProclinic(CrawlSpider):
-    name = 'Proclinic'
+class WebIberica(CrawlSpider):
+    name = 'dentaliberica'
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8'
     }
-    allowed_domains = ['proclinic.es/tienda/']
+    allowed_domains = ['dentaliberica.com/es/clinica']
 
-    start_urls = ['https://www.proclinic.es/tienda/clinica.html?p=1&limit=24&orderBy[name]=asc&filters['
-                  'main_family]=Cl%C3%ADnica'
-                  ]
+    start_urls = ['https://dentaliberica.com/es/clinica']
 
     rules = (
         Rule(
@@ -46,13 +44,13 @@ class WebProclinic(CrawlSpider):
         Rule(
             LinkExtractor(
                 allow=r''
-            ), follow=True, callback='parse_proclinic'
+            ), follow=True, callback='parse_iberica'
         )
 
 
     )
 
-    def parse_proclinic(selfself, response):
+    def parse_iberica(self, response):
         selector = Selector(response)
         productos = selector.xpath("")
 
@@ -67,7 +65,7 @@ class WebProclinic(CrawlSpider):
         yield item.load_item()
 
 
-with open('productos_proclinic.json') as archivo:
+with open('productos_dentalIberica.json') as archivo:
     datos = json.load(archivo)
 
 coleccion.insert_many(datos)
@@ -77,11 +75,7 @@ print("coleccion añadida correctamente")
 #Ejecucion
 proceso = CrawlerProcess({
     'FEED_FORMAT': 'json',
-    'FEED_URI': 'productos_proclinic.json'
+    'FEED_URI': 'productos_dentalIberica.json'
 })
-proceso.crawl(WebProclinic)
+proceso.crawl(WebIberica)
 proceso.start()
-
-
-
-
