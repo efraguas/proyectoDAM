@@ -38,12 +38,12 @@ class WebAntonSD(CrawlSpider):
     rules = (
         Rule(
             LinkExtractor(
-                allow=r''
+                allow=r'page=\d+$'
             ), follow=True
         ),
         Rule(
             LinkExtractor(
-                allow=r''
+                allow=r'-\d+$'
             ), follow=True, callback='parse_antonSD'
         )
 

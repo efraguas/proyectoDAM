@@ -31,7 +31,7 @@ class WebProclinic(CrawlSpider):
                       'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8'
     }
-    allowed_domains = ['proclinic.es/tienda/']
+    allowed_domains = ['proclinic.es/tienda/', 'antonsl.es/consumibles']
 
     start_urls = ['https://www.proclinic.es/tienda/clinica.html?p=1&limit=24&orderBy[name]=asc&filters['
                   'main_family]=Cl%C3%ADnica'
@@ -40,7 +40,7 @@ class WebProclinic(CrawlSpider):
     rules = (
         Rule(
             LinkExtractor(
-                allow=r''
+                allow=r'/([\w-]+(?:-[\w-]+)*)\/? | /.html$'
             ), follow=True
         ),
         Rule(
@@ -67,7 +67,7 @@ class WebProclinic(CrawlSpider):
         yield item.load_item()
 
 
-with open('productos_proclinic.json') as archivo:
+with open('./datos/productos_proclinic.json') as archivo:
     datos = json.load(archivo)
 
 coleccion.insert_many(datos)
@@ -77,7 +77,7 @@ print("coleccion añadida correctamente")
 #Ejecucion
 proceso = CrawlerProcess({
     'FEED_FORMAT': 'json',
-    'FEED_URI': 'productos_proclinic.json'
+    'FEED_URI': './datos/productos_proclinic.json'
 })
 proceso.crawl(WebProclinic)
 proceso.start()

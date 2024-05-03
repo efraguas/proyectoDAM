@@ -112,13 +112,13 @@ class WebDentista(CrawlSpider):
 # Ejecucion del script
 proceso = CrawlerProcess({
     'FEED_FORMAT': 'json',
-    'FEED_URI': 'productos_dentales.json'
+    'FEED_URI': './datos/productos_dentales.json'
 })
 proceso.crawl(WebDentista)
 proceso.start()
 
 #Acceso al archivo json e insercion en la coleccion de la base de datos
-with open('tiendaDentista.json') as archivo:
+with open('./datos/tiendaDentista.json') as archivo:
     datos = json.load(archivo)
 coleccion.insert_many(datos)
 print("datos añadidos correctamente")

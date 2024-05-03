@@ -1,3 +1,5 @@
+import json
+from pymongo import MongoClient
 from scrapy.item import Field
 from scrapy.item import Item
 from scrapy.spiders import CrawlSpider, Rule
@@ -7,16 +9,13 @@ from scrapy.loader import ItemLoader
 from itemloaders.processors import MapCompose
 from scrapy.crawler import CrawlerProcess
 
+
+#Conexion a MongoDB y creacion de coleccion
+cliente = MongoClient('mongodb://localhost:27017')
+db = cliente['Materiales_odontologia']
+coleccion = db['Dental_Iberica']
+
 class Producto(Item):
-    """
-    defino la clase producto con los atributos de la informacion que deseo extraer en este caso
-        nombre
-        categoria
-        subcategoria
-        marca
-        url
-        precio
-    """
     nombre = Field()
     categoria = Field()
     subcategoria = Field()
@@ -26,36 +25,22 @@ class Producto(Item):
 
 
 class TiendaDentista(CrawlSpider):
-    """
-    Clase que define el spider a utilizar sobre la web latiendadeldentista para la extraccion de la informacion acerca
-    de los materiales odontológicos y las reglas para la paginacion horizontal y vertical de la url
-    """
     name = 'latiendadeldentista'
     custom_settings = {
-        'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8'
     }
-    allowed_domains = ['latiendadeldentista.com']
+    allowed_domains = ['latiendadeldentista.com/13-instrumental-dental',
+                       'latiendadeldentista.com/343-materiales-dentales', 'latiendadeldentista.com/15-ortodoncia',
+                       'latiendadeldentista.com/195-ropa']
     start_urls = [
-        'https://www.latiendadeldentista.com/',
-
-    ]
+        'https://www.latiendadeldentista.com/13-instrumental-dental']
     download_delay = 1
 
     rules = (
-        # Detalle de categorias
         # paginacion horizontal a traves de la lista de categorias
         Rule(
             LinkExtractor(
-                allow=r'\b(?!(11|21|304|420|295))\d+-\w+\b',
-                restrict_xpaths="//div[@id='_desktop_top_menu']"
-            ), follow=True),
-        # detalle de subcategorias
-        # paginacion vertical a través de la lista de subcategorias
-        Rule(
-            LinkExtractor(
-                allow=r'\d+-\w+',
+                allow=r'page=\d+$ | p=\d+$',
                 restrict_xpaths="//div[@id='center_column']/ul[@class='product_list row list']"
             ), follow=True),
         # detalle del producto aqui es donde realizamos la extraccion (callback)
@@ -63,56 +48,62 @@ class TiendaDentista(CrawlSpider):
             LinkExtractor(
                 allow=r'\d{5}$',
                 restrict_xpaths="//div[@class='row']"
-            ), follow=True, callback='parse_web'),
+            ), follow=True, callback='parse_dentista'),
     )
 
+    # Funcion formatear datos extraidos:
+    def formatear(self, texto):
+        format = texto.replace('\n', '').replace('\t', '').lower().strip()
+        return format
 
-    def parse_web(self, response):
+    # Funcion formatear el precio y castearlo a float
+    def format_precio(self, texto):
+        try:
+            precio = texto.replace('\n', '').replace('\t', '').replace(" €", '').replace(",", '.').strip()
+            float(precio)
+        except Exception:
+            precio = 'Precio no diponible'
+        return precio
+
+
+    def parse_dentista(self, response):
 
         selector = Selector(response).get()
-        """
-        nombre = selector.xpath("//h1[@itemprop='name']/text()").get()
-        categoria = selector.xpath("//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()").get()
-        subcategoria = selector.xpath("//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()").get()
-        marca = selector.xpath("//p[@id='product_manufacturer']//a/text()").get()
-        url = selector.xpath("//p[@class='our_price_display']//meta[@itemprop='url']/@content").get()
-        """
-        try:
-
-            precio = selector.xpath("//span[@class='our_price_display']").get()
-            float(precio.replace('\t', '').replace(" €+IVA", '').replace(",", '.'))
-        except:
-            precio = 'no disponible'
-
         item = ItemLoader(Producto(), selector)
 
         try:
-
-            item.add_xpath('nombre', ".//h1[@itemprop='name']/text()"), MapCompose(
-                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-            item.add_xpath('categoria',
-                           ".//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()"), MapCompose(
-                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
+            item.add_xpath('nombre', ".//h1[@itemprop='name']/text()", MapCompose(self.formatear))
+            item.add_xpath('categoria', ".//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()",
+                           MapCompose(self.formatear))
             item.add_xpath('subcategoria',
-                           ".//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()"), MapCompose(
-                lambda x: x.replace('\n', '').replace('\t', ''))
-            item.add_xpath('marca', ".//p[@id='product_manufacturer']//a/text()"), MapCompose(
-                lambda x: x.replace('\n', '').replace('\t', ''))
-            item.add_xpath('url', ".//p[@id='our_price_display']//meta[@itemprop='url']/@content"), MapCompose(
-                lambda x: x.replace('\n', '').replace('\t', '').replace(" €+IVA", ''))
-            item.add_value('precio', precio)
+                           ".//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()",
+                           MapCompose(self.formatear))
+            item.add_xpath('marca', ".//p[@id='product_manufacturer']//a/text()", MapCompose(self.formatear))
+            item.add_xpath('url', ".//p[@class='our_price_display']//meta[@itemprop='url']/@content",
+                           MapCompose(self.formatear))
+            item.add_xpath('precio', ".//span[@id='our_price_display']/text()", MapCompose(self.format_precio))
+
         except:
             pass
 
         yield item.load_item()
 
+
+
 #Ejecucion
 proceso = CrawlerProcess({
-    'FEED_FORMAT': 'csv',
-    'FEED_URI': 'productos_dentales.csv'
+    'FEED_FORMAT': 'json',
+    'FEED_URI': './datos/tiendaDentista.json'
 })
 proceso.crawl(TiendaDentista)
 proceso.start()
+
+
+#with open('./datos/tiendaDentista.json') as archivo:
+#    datos = json.load(archivo)
+
+#coleccion.insert_many(datos)
+#print("coleccion añadida correctamente")
 
 #Ejecucuion desde la terminal
 #scrapy runspider tienda_dentista.py -o productos_dentales.json

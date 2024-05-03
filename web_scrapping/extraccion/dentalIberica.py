@@ -29,7 +29,8 @@ class WebIberica(CrawlSpider):
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/113.0.0.0 Safari/537.36',
-        'FEED_EXPORT_ENCODING': 'utf-8'
+        'FEED_EXPORT_ENCODING': 'utf-8',
+        'CLOSESPIDER_PAGECOUNT': 1063
     }
     allowed_domains = ['dentaliberica.com/es/clinica']
 
@@ -38,12 +39,12 @@ class WebIberica(CrawlSpider):
     rules = (
         Rule(
             LinkExtractor(
-                allow=r''
+                allow=r'page=\d+$'
             ), follow=True
         ),
         Rule(
             LinkExtractor(
-                allow=r''
+                allow=r'/.html$'
             ), follow=True, callback='parse_iberica'
         )
 
@@ -65,7 +66,7 @@ class WebIberica(CrawlSpider):
         yield item.load_item()
 
 
-with open('productos_dentalIberica.json') as archivo:
+with open('./datos/productos_dentalIberica.json') as archivo:
     datos = json.load(archivo)
 
 coleccion.insert_many(datos)
@@ -75,7 +76,7 @@ print("coleccion añadida correctamente")
 #Ejecucion
 proceso = CrawlerProcess({
     'FEED_FORMAT': 'json',
-    'FEED_URI': 'productos_dentalIberica.json'
+    'FEED_URI': './datos/productos_dentalIberica.json'
 })
 proceso.crawl(WebIberica)
 proceso.start()
