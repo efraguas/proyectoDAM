@@ -1,4 +1,3 @@
-import json
 from scrapy.item import Field
 from scrapy.item import Item
 from scrapy.spiders import CrawlSpider, Rule
@@ -29,9 +28,12 @@ class WebProclinic(CrawlSpider):
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/113.0.0.0 Safari/537.36',
-        'FEED_EXPORT_ENCODING': 'utf-8'
+        'FEED_EXPORT_ENCODING': 'utf-8',
+        'ITEM PIPELINES': {
+            'proclinic.MongoDBPipeline': 300,
+        }
     }
-    allowed_domains = ['proclinic.es/tienda/', 'antonsl.es/consumibles']
+    allowed_domains = ['proclinic.es/tienda/']
 
     start_urls = ['https://www.proclinic.es/tienda/clinica.html?p=1&limit=24&orderBy[name]=asc&filters['
                   'main_family]=Cl%C3%ADnica'
@@ -40,19 +42,12 @@ class WebProclinic(CrawlSpider):
     rules = (
         Rule(
             LinkExtractor(
-                allow=r'/([\w-]+(?:-[\w-]+)*)\/? | /.html$'
-            ), follow=True
-        ),
-        Rule(
-            LinkExtractor(
-                allow=r''
-            ), follow=True, callback='parse_proclinic'
+                allow=r'/([\w-]+(?:-[\w-]+)*)\/?|/.html$'
+            ), callback='parse_proclinic'
         )
-
-
     )
 
-    def parse_proclinic(selfself, response):
+    def parse_proclinic(self, response):
         selector = Selector(response)
         productos = selector.xpath("")
 
@@ -67,20 +62,30 @@ class WebProclinic(CrawlSpider):
         yield item.load_item()
 
 
-with open('./datos/productos_proclinic.json') as archivo:
-    datos = json.load(archivo)
+# Pipeline para guardar datos extraidos en coleccion de MongoDB
+class MongoDBPipeline:
+    def __init__(self):
+        self.cliente = MongoClient('localhost', 27017)
+        self.db = self.cliente['Materiales_odontologia']
+        self.collection = self.db['Proclinic']
 
-coleccion.insert_many(datos)
-print("coleccion añadida correctamente")
+# Metodo para efectuar el guardado y actualizacion de valores
+    def process_item(self, item, spider):
+        self.collection.update_one({'url': item['url']}, {'$set': dict(item)}, upsert=True)
+        return item
 
 
-#Ejecucion
-proceso = CrawlerProcess({
-    'FEED_FORMAT': 'json',
-    'FEED_URI': './datos/productos_proclinic.json'
-})
-proceso.crawl(WebProclinic)
-proceso.start()
+#configuracion y ejecucion
+if __name__ == "__main__":
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'dentalIberica.MongoDBPipeline': 300,
+        }
+    }
+    # Ejecucion
+    proceso = CrawlerProcess(settings=custom_settings)
+    proceso.crawl(WebProclinic)
+    proceso.start()
 
 
 

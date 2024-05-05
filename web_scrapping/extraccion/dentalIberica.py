@@ -1,15 +1,11 @@
-import json
 from scrapy.item import Field
 from scrapy.item import Item
 from scrapy.spiders import CrawlSpider, Rule
-from scrapy.selector import Selector
 from scrapy.linkextractors import LinkExtractor
-from scrapy.loader import ItemLoader
 from scrapy.crawler import CrawlerProcess
 from pymongo import MongoClient
 
-
-#Conexion a MongoDB y creacion de coleccion
+# Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
 coleccion = db['Dental_Iberica']
@@ -24,59 +20,67 @@ class Producto(Item):
     precio = Field()
 
 
+# Spider extractor de datos
 class WebIberica(CrawlSpider):
     name = 'dentaliberica'
     custom_settings = {
-        'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/113.0.0.0 Safari/537.36',
+        #'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.119 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
-        'CLOSESPIDER_PAGECOUNT': 1063
+        #'CLOSESPIDER_PAGECOUNT': 1063,
+        'ITEM PIPELINES': {
+            'dentalIberica.MongoDBPipeline': 300,
+        }
     }
-    allowed_domains = ['dentaliberica.com/es/clinica']
 
     start_urls = ['https://dentaliberica.com/es/clinica']
 
     rules = (
         Rule(
             LinkExtractor(
-                allow=r'page=\d+$'
-            ), follow=True
+                allow=r'\.html$|\.html#',
+            ), callback='parse_iberica'
         ),
         Rule(
             LinkExtractor(
-                allow=r'/.html$'
-            ), follow=True, callback='parse_iberica'
+                allow=r'page=\d+$'
+            ),
         )
-
 
     )
 
+# Clase encargada de parsear la informacion extraida
     def parse_iberica(self, response):
-        selector = Selector(response)
-        productos = selector.xpath("")
+        item = {}
+        item['nombre'] = response.xpath(".//meta[@property='og:title']/@content").get()
+        item['categoria'] = response.xpath(".//ol/li[3]//span/text()").get()
+        item['subcategoria'] = response.xpath(".//ol/li[4]//span/text()").get()
+        item['marca'] = response.xpath(".//div[@class='product-manufacturer']//span/text()").get()
+        item['url'] = response.xpath(".//meta[@property='og:url']/@content").get()
+        item['precio'] = response.xpath(".//meta[@property='product:price:amount']/@content").get()
 
-        item = ItemLoader(Producto(), productos)
-        item.add_xpath('nombre', '')
-        item.add_xpath('categoria', '')
-        item.add_xpath('subcategoria', '')
-        item.add_xpath('marca', '')
-        item.add_xpath('url', '')
-        item.add_xpath('precio', '')
+        yield item
 
-        yield item.load_item()
+# Pipeline para guardar datos extraidos en coleccion de MongoDB
+class MongoDBPipeline:
+    def __init__(self):
+        self.cliente = MongoClient('localhost', 27017)
+        self.db = self.cliente['Materiales_odontologia']
+        self.collection = self.db['dental_Iberica']
 
-
-with open('./datos/productos_dentalIberica.json') as archivo:
-    datos = json.load(archivo)
-
-coleccion.insert_many(datos)
-print("coleccion añadida correctamente")
+# Metodo para efectuar el guardado y actualizacion de valores
+    def process_item(self, item, spider):
+        self.collection.update_one({'url': item['url']}, {'$set': dict(item)}, upsert=True)
+        return item
 
 
-#Ejecucion
-proceso = CrawlerProcess({
-    'FEED_FORMAT': 'json',
-    'FEED_URI': './datos/productos_dentalIberica.json'
-})
-proceso.crawl(WebIberica)
-proceso.start()
+#configuracion y ejecucion
+if __name__ == "__main__":
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'dentalIberica.MongoDBPipeline': 300,
+        }
+    }
+    # Ejecucion
+    proceso = CrawlerProcess(settings=custom_settings)
+    proceso.crawl(WebIberica)
+    proceso.start()
