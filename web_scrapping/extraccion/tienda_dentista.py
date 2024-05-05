@@ -12,7 +12,6 @@ cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
 coleccion = db['tienda_dentista']
 
-
 class Producto(Item):
     nombre = Field()
     categoria = Field()
@@ -30,9 +29,9 @@ class TiendaDentista(CrawlSpider):
             'tienda_dentista.MongoDBPipeline': 300,
         },
     }
-    allowed_domains = ['latiendadeldentista.com']
-    start_urls = ['https://www.latiendadeldentista.com/13-instrumental-dental']
-    #download_delay = 1
+
+    start_urls = ['https://www.latiendadeldentista.com', 'https://latiendadeldentista.com/343-materiales-dentales',
+                  'https://latiendadeldentista.com/195-ropa']
 
     rules = (
         # paginacion horizontal a traves de la lista de categorias
@@ -50,32 +49,40 @@ class TiendaDentista(CrawlSpider):
         )
     )
 
-    # Funcion formatear datos extraidos:
-    def formatear(self, texto):
-        return texto.replace('\n', '').replace('\t', '').lower().strip()
-
-    # Funcion formatear el precio y castearlo a float
-    def format_precio(self, texto):
-        try:
-            precio = texto.replace('\n', '').replace('\t', '').replace(" €", '').replace(",", '.').strip()
-            return float(precio)
-        except ValueError:
-            return 'Precio no diponible'
 
     def parse_dentista(self, response):
-        item = ItemLoader(item=Producto(), response=response)
-        item.add_xpath('nombre', ".//h1[@itemprop='name']/text()", MapCompose(self.formatear))
-        item.add_xpath('categoria', ".//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()",
-                       MapCompose(self.formatear))
-        item.add_xpath('subcategoria',
-                       ".//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()",
-                       MapCompose(self.formatear))
-        item.add_xpath('marca', ".//p[@id='product_manufacturer']//a/text()", MapCompose(self.formatear))
-        item.add_xpath('url', ".//p[@class='our_price_display']//meta[@itemprop='url']/@content",
-                       MapCompose(self.formatear))
-        item.add_xpath('precio', ".//span[@id='our_price_display']/text()", MapCompose(self.format_precio))
+        item = {}
+        nombre = response.xpath(".//h1[@itemprop='name']/text()").get()
+        item['nombre'] = formatear(nombre)
+        categoria = response.xpath(".//span[@class='navigation_page']/*[1]//span[@itemprop='title']/text()").get()
+        item['categoria'] = formatear(categoria)
+        subcategoria = response.xpath(".//span[@class='navigation_page']/*[3]//span[@itemprop='title']/text()").get()
+        item['subcategoria'] = formatear(subcategoria)
+        marca = response.xpath( ".//p[@id='product_manufacturer']//a/text()").get()
+        item['marca'] = formatear(marca)
+        url = response.xpath(".//p[@class='our_price_display']//meta[@itemprop='url']/@content").get()
+        item['url'] = formatear(url)
+        precio = response.xpath(".//span[@id='our_price_display']/text()").get()
+        item['precio'] = format_precio(precio) if precio else 'no disponible'
 
-        yield item.load_item()
+        yield item
+
+
+# Funcion formatear datos extraidos:
+def formatear(texto):
+    if texto:
+        return texto.replace('\n', '').replace('\t', '').lower().strip()
+    else:
+        return 'no disponible'
+
+# Funcion formatear el precio
+def format_precio( texto):
+    try:
+        precio = texto.replace('\n', '').replace('\t', '').replace(" €", '').replace(",", '.').rstrip('.0').strip()
+        return float(precio)
+    except ValueError:
+        return 'Precio no diponible'
+
 
 
 # Pipeline para MongoDB
@@ -95,12 +102,6 @@ if __name__ == "__main__":
     custom_settings = {
         'ITEM_PIPELINES': {
             'tiendaDentista.MongoDBPipeline': 300,
-        },
-        'FEEDS': {
-            './datos/productos_dentalIberica.json': {
-                'format': 'json',
-                'overwrite': True,
-            }
         }
     }
     proceso = CrawlerProcess(settings=custom_settings)

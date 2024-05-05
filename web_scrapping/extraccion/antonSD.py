@@ -66,29 +66,14 @@ class WebAntonSD(CrawlSpider):
         item['nombre'] = response.xpath(".//div[@class='shop-product-info']//h1/text()").get()
         item['categoria'] = response.xpath(".//p[@class='breadcrumb']//a[3]/text()").get()
         subcategoria = response.xpath("//p[@class='breadcrumb']//a[4]/text()").get()
-        item['subcategoria'] = subcategoria if subcategoria else 'sin subcategoria'
+        item['subcategoria'] = subcategoria
         marca= response.xpath(".//div[@class='shop-product-info']//h3/text()").get()
         item['marca'] = marca if marca else 'sin marca'
         item['url'] = response.xpath(".//meta[@property='og:url']/@content").get()
-        precio = response.xpath(".//ul[@class='shop-product-precios']//span/text()").get()
+        precio = response.xpath(".//ul[@class='shop-product-precios']//span/text()|ul[@class='shop-product-precios']//input[@id='offer_price']/@value").get()
         item['precio'] = float(precio.replace('€', '').replace(",", '.').rstrip('.0')) if precio else 'Precio no disponible'
 
         yield item
-        #
-        #
-        #
-        # selector = Selector(response)
-        # productos = selector.xpath("//head | //section[@class='page-header page-header-shop'] | //div[@class='shop-page-content']")
-        #
-        # item = ItemLoader(item=Producto(), selector=productos)
-        # item.add_xpath('nombre', ".//div[@class='shop-product-info']//h1/text()")
-        # item.add_xpath('categoria', ".//p[@class='breadcrumb']//a[3]/text()")
-        # item.add_xpath('subcategoria', ".//p[@class='breadcrumb']//a[4]/text()")
-        # item.add_xpath('url', ".//meta[@property='og:url']/@content")
-        # item.add_xpath('precio', ".//ul[@class='shop-product-precios']//input[@id='offer_price']/@value")
-        # item.add_xpath('marca', ".//div[@class='shop-product-info']//h3/text()")
-        #
-        # yield item.load_item()
 
 
 # Pipeline para guardar datos extraidos en coleccion de MongoDB
