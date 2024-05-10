@@ -29,25 +29,25 @@ class WebProclinic(CrawlSpider):
             'proclinic.MongoDBPipeline': 300,
         }
     }
-    allowed_domains = ['proclinic.es']
-    start_urls = ['https://www.proclinic.es/tienda/clinica']
+    #allowed_domains = ['proclinic.es']
+    start_urls = ['https://www.proclinic.es/tienda/clinica.html', 'https://www.proclinic.es/tienda']
 
     rules = (
         Rule(
             LinkExtractor(
-                allow=r'/tienda/[a-zA-Z0-9-]+'
-            ), callback='parse_proclinic'
-        )
+                allow=r'/tienda/.*(-[a-zA-Z0-9]+)*\.html$|.*$'
+            ), follow=True, callback='parse_proclinic'
+        ),
     )
 
     def parse_proclinic(self, response):
         item = {}
-        item['nombre'] = response.xpath("//div[@class='product-view']@data-name").get()
-        item['categoria'] = response.xpath("//div[@class='product-view']@data-category").get()
-        item['subcategoria'] = response.xpath("//div[@class='product-view']@data-subfamily").get()
-        item['marca'] = response.xpath("//div[@class='product-view']@data-brand").get()
-        item['url'] = response.xpath("//div[@class='product-view']@data-thumbnail").get()
-        precio = response.xpath("//div[@class='product-view']@data-price").get()
+        item['nombre'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-name").get()
+        item['categoria'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-category").get()
+        item['subcategoria'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-subfamily").get()
+        item['marca'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-brand").get()
+        item['url'] = response.xpath("//meta[@property='og:url']/@content").get()
+        precio = response.xpath(".//div[@class='product-view product-view--grouped']/@data-price").get()
         item['precio'] = float(precio.replace('€', '').replace(",", '.').rstrip('.0')) if precio else 'Precio no disponible'
         yield item
 
@@ -69,7 +69,7 @@ class MongoDBPipeline:
 if __name__ == "__main__":
     custom_settings = {
         'ITEM_PIPELINES': {
-            'dentalIberica.MongoDBPipeline': 300,
+            'proclinic.MongoDBPipeline': 300,
         }
     }
     # Ejecucion
