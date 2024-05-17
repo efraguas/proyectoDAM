@@ -11,7 +11,7 @@ class Interfaz:
         # Conexión a la base de datos MongoDB
         self.client = MongoClient("mongodb://localhost:27017/")
         self.db = self.client["Materiales_odontologia"]
-        self.collection = self.db["materiales"]
+        self.collections = ['antonSD', 'Proclinic', 'dental_Iberica']
 
         # Etiqueta y entrada para el nombre del producto
         tk.Label(self.root, text="Nombre del Producto:").grid(row=0, column=0, padx=10, pady=5)
@@ -30,19 +30,38 @@ class Interfaz:
         self.resultados.delete("1.0", tk.END)  # Limpiar resultados anteriores
         producto = self.entrada_producto.get()
 
+        #filtor para quitar campos nulos
+
+        filtrar = {
+            "$and": [
+                {"nombre": {"$regex": producto, "$options": "i"}},
+                {"nombre": {"$ne": None}},
+                {"marca": {"$ne": None}},
+                {"categoria": {"$ne": None}},
+                {"subcategoria": {"$ne": None}},
+                {"precio": {"$ne": None}},
+                {"url": {"$ne": None}}
+            ]
+        }
+
         # Realizar la búsqueda en la base de datos y mostrar los resultados
         if producto:
-            coleccion = self.collection.find({"nombre": {"$regex": producto, "$options": "i"}}).sort("precio")
-            for item in coleccion:
-                nombre = item["nombre"]
-                categoria = item.get("categoria", "N/A")
-                subcategoria = item.get("subcategoria", "N/A")
-                precio = item.get("precio", "N/A")
+            for coleccion in self.collections:
+                collection = self.db[coleccion]
+                resultados = collection.find(filtrar).sort("precio", 1)
 
-                self.resultados.insert(tk.END, f"Nombre: {nombre}\n")
-                self.resultados.insert(tk.END, f"Categoría: {categoria}\n")
-                self.resultados.insert(tk.END, f"Subcategoría: {subcategoria}\n")
-                self.resultados.insert(tk.END, f"Precio: {precio}\n\n")
+                for item in resultados:
+                    nombre = item["nombre"]
+                    categoria = item.get("categoria", "N/A")
+                    subcategoria = item.get("subcategoria", "N/A")
+                    precio = item.get("precio", "N/A")
+                    url = item.get("url", "N/A")
+
+                    self.resultados.insert(tk.END, f"Nombre: {nombre}\n")
+                    self.resultados.insert(tk.END, f"Categoría: {categoria}\n")
+                    self.resultados.insert(tk.END, f"Subcategoría: {subcategoria}\n")
+                    self.resultados.insert(tk.END, f"Precio: {precio}\n\n")
+                    self.resultados.insert(tk.END, f"WEb: {url}\n\n")
         else:
             tk.messagebox.showerror("Error", "Por favor, introduzca el nombre del producto.")
 
