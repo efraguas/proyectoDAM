@@ -51,13 +51,14 @@ class ComparadorUI:
         # Asociar el evento de clic en la columna URL con la función abrir_url
         self.tree.bind('<ButtonRelease-1>', self.abrir_url)
 
+    # Funcion de busqueda/ordenacion de los productos por precio
     def buscar(self):
         texto = self.entry.get()
         if not texto:
             messagebox.showerror("Error", "El campo de texto no puede estar vacío.")
             return
 
-        # Filtro para excluir documentos con campos nulos y buscar por nombre
+        # Query para filtrar y excluir documentos con campos nulos y buscar por nombre
         filtro_combinado = {
             "$and": [
                 {"nombre": {"$regex": texto, "$options": "i"}},
@@ -78,13 +79,15 @@ class ComparadorUI:
                 resultados_combinados.append(doc)
 
         # Limpiar la tabla
-        for row in self.tree.get_children():
-            self.tree.delete(row)
+        for fila in self.tree.get_children():
+            self.tree.delete(fila)
 
         # Mostrar resultados en la tabla
         for doc in resultados_combinados:
-            self.tree.insert("", "end", values=(doc["nombre"], doc["categoria"], doc["subcategoria"], doc["precio"], doc["url"]))
+            self.tree.insert("", "end", values=(doc["nombre"], doc["categoria"], doc["subcategoria"],
+                                                doc["precio"], doc["url"]))
 
+    # Funcion para visitar la url del producto seleccionado
     def abrir_url(self, event):
         item = self.tree.identify('item', event.x, event.y)
         column = self.tree.identify_column(event.x)

@@ -27,10 +27,9 @@ class Producto(Item):
 class WebAntonSD(CrawlSpider):
     name = 'antonSD'
     custom_settings = {
-        #'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
-        #             'Chrome/113.0.0.0 Safari/537.36',
+        'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
+                     'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
-        #'CLOSESPIDER_PAGECOUNT': 100,
         'ITEM PIPELINES': {
             'antonSD.MongoDBPipeline': 300,
         }
