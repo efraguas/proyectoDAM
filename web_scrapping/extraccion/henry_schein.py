@@ -2,19 +2,20 @@ import time
 
 from pymongo import MongoClient
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-#Conexion a MongoDB y creacion de coleccion
+# Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
 coleccion = db['Henry_schein']
 
 # objeto options donde definiremos usera agent y headlees mode para operar sin abrir el navegador
 options = Options()
-#options.add_argument("--headless")
+# options.add_argument("--headless")
 
 # configurar el driver para que Selenium busque e instale el driver correspondiente
 driver = webdriver.Chrome(
@@ -39,7 +40,8 @@ for url_categoria in links_categorias:
         # esperar a que cargue la pagina
         time.sleep(3)
         # obtener los link de las subcategorias
-        subcategorias = driver.find_elements(By.XPATH, '//ul[@class="hs-categories display grid clear-fix"]/li[@class="item"]/a')
+        subcategorias = driver.find_elements(By.XPATH,
+                                             '//ul[@class="hs-categories display grid clear-fix"]/li[@class="item"]/a')
         # extraer los links de las subcategorias
         links_subcategorias = [subcategoria.get_attribute("href") for subcategoria in subcategorias]
         # iterar sobre las subcategorias
@@ -49,7 +51,7 @@ for url_categoria in links_categorias:
                 driver.get(url_subcat)
                 # esperar a que cargue la pagina
                 time.sleep(3)
-                #manejando paginacion
+                # manejando paginacion
                 pagina_actual = 1
                 while True:
                     # obtener los link de producto
@@ -65,13 +67,16 @@ for url_categoria in links_categorias:
                             time.sleep(3)
                             # Extraer la informacion
                             nombre = driver.find_element(By.XPATH, "//h2[@class='product-title medium strong'].text")
-                            categoria = driver.find_element(By.XPATH, "//div[@class='breadcrumb  no-featured-offers']//li[5]//span.text")
-                            subcategoria = driver.find_element(By.XPATH, "//div[@class='breadcrumb  no-featured-offers']//li[7]//span.text")
+                            categoria = driver.find_element(By.XPATH,
+                                                            "//div[@class='breadcrumb  no-featured-offers']//li[5]//span.text")
+                            subcategoria = driver.find_element(By.XPATH,
+                                                               "//div[@class='breadcrumb  no-featured-offers']//li[7]//span.text")
                             marca = driver.find_element(By.XPATH, '//title.text')
                             precio = driver.find_element(By.XPATH, "//span[@class='amount x-small'].text")
-                            url = driver.find_element(By.XPATH, "//meta[@itemprop='item']/@content").get_attribute("content")
+                            url = driver.find_element(By.XPATH, "//meta[@itemprop='item']/@content").get_attribute(
+                                "content")
 
-                            #tratar la variable marca para extraer solo la marca de esa cadena de texto
+                            # tratar la variable marca para extraer solo la marca de esa cadena de texto
                             marca_formateada = marca.split()
                             marca = marca_formateada[-6]
 
@@ -83,16 +88,16 @@ for url_categoria in links_categorias:
                             # de MongoDb
                             item = {
                                 "nombre": nombre,
-                                "categoria" : categoria,
-                                "subcategoria" : subcategoria,
-                                "marca" : marca,
-                                "precio" : precio,
-                                "url" : url
+                                "categoria": categoria,
+                                "subcategoria": subcategoria,
+                                "marca": marca,
+                                "precio": precio,
+                                "url": url
                             }
                             # Insertar el item en la colección de MongoDB
                             coleccion.insert_one(item)
 
-                        except Exception as e:
+                        except NoSuchElementException as e:
                             print(f"Excepcion en extraccion de {url_producto}")
 
                     # Ver si existe una siguiente pagina para la paginacion
@@ -100,7 +105,7 @@ for url_categoria in links_categorias:
                     if next_page:
                         # si hay next page pulsar
                         next_page[0].click()
-                        #aumentar el contador de pagina
+                        # aumentar el contador de pagina
                         pagina_actual += 1
                         # esperar a que cargue
                         time.sleep(3)
@@ -111,9 +116,9 @@ for url_categoria in links_categorias:
                 driver.back()
                 driver.back()
                 driver.back()
-            except Exception as e:
+            except NoSuchElementException as e:
                 print(f"Error extraer subcategoria {url_subcat}")
-    except Exception as e:
+    except NoSuchElementException as e:
         print(f"Error al extraer categoria {url_categoria}")
 # cerrar navegador
 driver.quit()
