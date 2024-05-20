@@ -14,9 +14,7 @@ coleccion = db['Henry_schein']
 
 # objeto options donde definiremos usera agent y headlees mode para operar sin abrir el navegador
 options = Options()
-options.add_argument("Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) "
-                     "Chrome/113.0.0.0 Safari/537.36'")
-options.add_argument("--headless")
+#options.add_argument("--headless")
 
 # configurar el driver para que Selenium busque e instale el driver correspondiente
 driver = webdriver.Chrome(
@@ -55,7 +53,7 @@ for url_categoria in links_categorias:
                 pagina_actual = 1
                 while True:
                     # obtener los link de producto
-                    productos = driver.find_elements(By.XPATH, '//ul[@class="hs-categories display grid clear-fix"]/li[@class="item"]/a')
+                    productos = driver.find_elements(By.XPATH, '//h2[@class="product-name]/a')
                     # extraer los enlaces de productos
                     links_productos = [producto.get_attribute("href") for producto in productos]
                     # iterar sobre productos
