@@ -7,6 +7,8 @@ class ComparadorUI:
     def __init__(self, interfaz):
         self.interfaz = interfaz
         self.interfaz.title("Comparador de Productos Odontológicos")
+        self.estilo = ttk.Style()
+        self.estilo.theme_use("clam")
 
         # Conexión a MongoDB
         self.client = MongoClient("mongodb://localhost:27017/")
@@ -66,6 +68,7 @@ class ComparadorUI:
                 {"categoria": {"$ne": None}},
                 {"subcategoria": {"$ne": None}},
                 {"precio": {"$ne": None}},
+                {"precio": {"$ne": "Precio no disponible"}},
                 {"url": {"$ne": None}}
             ]
         }

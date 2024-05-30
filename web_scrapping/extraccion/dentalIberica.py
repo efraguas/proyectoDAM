@@ -24,7 +24,7 @@ class Producto(Item):
 class WebIberica(CrawlSpider):
     name = 'dentaliberica'
     custom_settings = {
-        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.119 Safari/537.36',
+        #'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.119 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
         'CLOSESPIDER_PAGECOUNT': 1063,
         'ITEM PIPELINES': {
@@ -56,7 +56,8 @@ class WebIberica(CrawlSpider):
         item['subcategoria'] = response.xpath(".//ol/li[4]//span/text()").get()
         item['marca'] = response.xpath(".//div[@class='product-manufacturer']//span/text()").get()
         item['url'] = response.xpath(".//meta[@property='og:url']/@content").get()
-        item['precio'] = response.xpath(".//meta[@property='product:price:amount']/@content").get()
+        precio = response.xpath(".//meta[@property='product:price:amount']/@content").get()
+        item['precio'] = float(precio.replace('€', '').replace(",", '.').rstrip('.0')) if precio else 'Precio no disponible'
 
         yield item
 

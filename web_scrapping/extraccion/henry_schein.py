@@ -8,6 +8,27 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
+# Funcion para eliminar simbolo de euro del texto precio y puntos separadores excepto
+# decimal
+def convertir_precio(precio):
+    # Eliminar espacios en blanco al principio y al final
+    precio = precio.strip().replace('€', '').replace(',', '.')
+    # Encontrar la posición del último punto
+    ultimo_punto = precio.rfind('.')
+    if ultimo_punto != -1:
+        # Reemplazar todos los puntos excepto el último
+        # se parte en dos cadenas usando el punto decimal, se eliminan los que no sean puntos
+        # de separacion decimales y se concatenan las cadenas por el punto decimal
+        precio = precio[:ultimo_punto].replace('.', '') + precio[ultimo_punto:]
+    # Convertir la cadena a float
+    return float(precio)
+
+# Funcion para tratar y formatear el texto extraido de marca
+def formateo_marca(text):
+    formato = text.split()
+    extraer_marca = formato[-1].strip()
+    return extraer_marca
+
 # Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
@@ -15,7 +36,7 @@ coleccion = db['Henry_schein']
 
 # objeto options donde definiremos user agent y headlees mode para operar sin abrir el navegador
 options = Options()
-options.add_argument("--headless")
+#options.add_argument("--headless")
 
 # configurar el driver para que Selenium busque e instale el driver correspondiente
 driver = webdriver.Chrome(
@@ -56,7 +77,7 @@ for url_categoria in links_categorias:
                 # manejando paginacion
                 pagina_actual = 1
                 while True:
-                    print(f"prcesando pagina {pagina_actual}")
+                    print(f"procesando pagina {pagina_actual}")
                     # obtener los link de producto
                     productos = driver.find_elements(By.XPATH, '//h2[@class="product-name"]/a')
                     # extraer los enlaces de productos
@@ -68,24 +89,23 @@ for url_categoria in links_categorias:
                             driver.get(url_producto)
                             print(f"entrando en producto {url_producto}")
                             # esperar a que cargue la pagina
-                            time.sleep(3)
+                            time.sleep(4)
                             # Extraer la informacion
                             nombre = driver.find_element(By.XPATH, "//h2[@class='product-title medium strong']").text
                             categoria = driver.find_element(By.XPATH,
                                                             "//div[@class='breadcrumb  no-featured-offers']//li[5]//span").text
                             subcategoria = driver.find_element(By.XPATH,
                                                                "//div[@class='breadcrumb  no-featured-offers']//li[7]//span").text
-                            marca = driver.find_element(By.XPATH, '//title').text
+                            marca = driver.find_element(By.XPATH, '//div[@class="breadcrumb  no-featured-offers"]//ol//li[9]/span').text
                             precio = driver.find_element(By.XPATH, "//span[@class='amount x-small']").text
                             url = driver.find_element(By.XPATH, "//meta[@itemprop='item']").get_attribute("content")
 
-                            # tratar la variable marca para extraer solo la marca de esa cadena de texto
-                            marca_formateada = marca.split()
-                            marca = marca_formateada[-6]
+                            # tratar la variable marca para extraer solo la marca de esa cadena de texto con funcion
+                            # formateo_marca()
+                            formateo_marca(marca)
 
-                            # eliminar simbolo de euro del texto precio
-                            float(precio.replace('€', '').replace(",", '.').rstrip(
-                                '.0'))
+                            # Convertir y formatear precio con funcion convertir_precio()
+                            convertir_precio(precio)
                             print(f"extraccion de {nombre,categoria,subcategoria,marca,precio,url} correcta")
                             # Creo un diccionario item para guardar la informacion y tranferirla luego a la coleccion
                             # de MongoDb
@@ -97,12 +117,54 @@ for url_categoria in links_categorias:
                                 "precio": precio,
                                 "url": url
                             }
-                            # Insertar el item en la colección de MongoDB
-                            coleccion.insert_one(item)
-                            print(f"Insercion de {item} en {coleccion} de MongoDb correcta")
+                            # Insertar/Actualizar el item en la colección de MongoDB
+                            guardado = coleccion.update_one({"url": url}, {"$set": item}, upsert=True)
+                            # Usando .upserted_id nos devolvera None si no existe update y el id si existe update
+                            # si devuelve id hay update y el mensaje sera de actualización sino será de inserción
+                            if guardado.upserted_id is not None:
+                                print(f"Insercion de {item} en {coleccion} de MongoDb correcta")
+                            else:
+                                print(f"Actualizacion de {item} en {coleccion} de MongoDb correcta")
 
                         except NoSuchElementException as e:
                             print(f"Excepcion en extraccion de {url_producto}")
+                            print(e.stacktrace)
+                            print(f"posible cambio en xpath de precio")
+                            # En caso de no encontrar el elemento precio porque este de oferta y se  modifice la ruta
+                            # del xpath extraer usando ruta modificada
+                            nombre = driver.find_element(By.XPATH, "//h2[@class='product-title medium strong']").text
+                            categoria = driver.find_element(By.XPATH,
+                                                            "//div[@class='breadcrumb  no-featured-offers']//li[5]//span").text
+                            subcategoria = driver.find_element(By.XPATH,
+                                                               "//div[@class='breadcrumb  no-featured-offers']//li[7]//span").text
+                            marca = driver.find_element(By.XPATH,
+                                                        '//div[@class="breadcrumb  no-featured-offers"]//ol//li[9]/span').text
+                            precio = driver.find_element(By.XPATH, "//span[@class='large color-quaternary custom-style-price']").text
+                            url = driver.find_element(By.XPATH, "//meta[@itemprop='item']").get_attribute("content")
+
+                            # tratar datos extraidos con sus funciones
+
+                            formateo_marca(marca)
+                            convertir_precio(precio)
+
+                            # Creo un diccionario item para guardar la informacion y tranferirla luego a la coleccion
+                            # de MongoDb
+                            item = {
+                                "nombre": nombre,
+                                "categoria": categoria,
+                                "subcategoria": subcategoria,
+                                "marca": marca,
+                                "precio": precio,
+                                "url": url
+                            }
+                            # Insertar/Actualizar el item en la colección de MongoDB
+                            guardado = coleccion.update_one({"url": url}, {"$set": item}, upsert=True)
+                            if guardado.upserted_id is not None:
+                                print(f"Insercion de {item} en {coleccion} de MongoDb correcta")
+                            else:
+                                print(f"Actualizacion de {item} en {coleccion} de MongoDb correcta")
+
+
 
                     # Ver si existe una siguiente pagina para la paginacion
                     next_page = driver.find_elements(By.XPATH, "//a[@class='hs-paging-next']")
