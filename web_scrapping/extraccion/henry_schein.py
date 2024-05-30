@@ -25,9 +25,11 @@ def convertir_precio(precio):
 
 # Funcion para tratar y formatear el texto extraido de marca
 def formateo_marca(text):
-    formato = text.split()
-    extraer_marca = formato[-1].strip()
-    return extraer_marca
+    # Encuentra la posición del último guion
+    ultimo_guion = text.rfind('-')
+    # Extrae la marca que está después del último guion y quita espacios
+    marca = text[ultimo_guion + 1:].strip()
+    return marca
 
 # Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
@@ -113,8 +115,8 @@ for url_categoria in links_categorias:
                                 "nombre": nombre,
                                 "categoria": categoria,
                                 "subcategoria": subcategoria,
-                                "marca": marca,
-                                "precio": precio,
+                                "marca": formateo_marca(marca),
+                                "precio": convertir_precio(precio),
                                 "url": url
                             }
                             # Insertar/Actualizar el item en la colección de MongoDB
@@ -153,8 +155,8 @@ for url_categoria in links_categorias:
                                 "nombre": nombre,
                                 "categoria": categoria,
                                 "subcategoria": subcategoria,
-                                "marca": marca,
-                                "precio": precio,
+                                "marca": formateo_marca(marca),
+                                "precio": convertir_precio(precio),
                                 "url": url
                             }
                             # Insertar/Actualizar el item en la colección de MongoDB

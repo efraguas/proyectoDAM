@@ -15,7 +15,7 @@ class ComparadorUI:
         self.db = self.client['Materiales_odontologia']
 
         # Lista de colecciones a buscar
-        self.colecciones = ['antonSD', 'Proclinic', 'dental_Iberica']
+        self.colecciones = ['antonSD', 'Proclinic', 'dental_Iberica', 'Henry_schein']
 
         # Configuración de la interfaz
         self.frame = tk.Frame(interfaz)
