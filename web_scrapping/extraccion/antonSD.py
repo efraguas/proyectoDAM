@@ -1,10 +1,7 @@
-from itemloaders.processors import MapCompose
 from scrapy.item import Field
 from scrapy.item import Item
 from scrapy.spiders import CrawlSpider, Rule
-from scrapy.selector import Selector
 from scrapy.linkextractors import LinkExtractor
-from scrapy.loader import ItemLoader
 from scrapy.crawler import CrawlerProcess
 from pymongo import MongoClient
 

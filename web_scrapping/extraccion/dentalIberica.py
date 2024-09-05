@@ -24,17 +24,30 @@ class Producto(Item):
 class WebIberica(CrawlSpider):
     name = 'dentaliberica'
     custom_settings = {
-        #'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.119 Safari/537.36',
+        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6438.69 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
+        'COOKIES_ENABLED': True,
         'CLOSESPIDER_PAGECOUNT': 1063,
+        'DEFAULT_REQUEST_HEADERS': {
+            'Referer': 'https://dentaliberica.com',
+            'Accept-Language': 'es',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+        },
         'ITEM PIPELINES': {
             'dentalIberica.MongoDBPipeline': 300,
         }
     }
 
-    start_urls = ['https://dentaliberica.com/es/clinica']
+    start_urls = ['https://dentaliberica.com/es']
+
+# Evitar salirse del dominio
+    allowed_domains = ['dentaliberica.com']
 
     rules = (
+        Rule(LinkExtractor(allow=(r'/clinica', r'/equipamiento', r'/laboratorio', r'/ofertas', r'/outlet'),
+                           deny=r'/content/catálogos-material-odontológico'), follow=True),
+
         Rule(
             LinkExtractor(
                 allow=r'\.html$|\.html#',
