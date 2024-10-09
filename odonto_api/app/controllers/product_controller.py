@@ -9,7 +9,7 @@ def get_products():
     producto = ProductService.get_all()
     return jsonify(producto), 200
 
-# Endpoint para obtener producto filtrado por nombre que coincida parcialmente
+# Endpoint para obtener producto filtrado por coincicencia en nombre y ordenado por precio ASC
 @product.route('/productos/nombre', methods=['GET'])
 def get_name():
     nombre = request.args.get('nombre')  # Captura del nombre parcial desde query params
@@ -17,14 +17,14 @@ def get_name():
     return jsonify(producto), 200
 
 
-#Endopoint para obtener producto filtrado por categoria
+#Endopoint para obtener producto filtrado por categoria y ordenado por precio ASC
 @product.route('/productos/categoria', methods=['GET'])
 def get_category():
     categoria = request.args.get('categoria')
     producto = ProductService.get_by_categoria(categoria)
     return jsonify(producto), 200
 
-#Endopoint para obtener filtrado por marca
+#Endopoint para obtener filtrado por marca y ordenado por precio ASC
 @product.route('/productos/marca', methods=['GET'])
 def get_marca():
     marca = request.args.get('marca')

@@ -5,10 +5,7 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.crawler import CrawlerProcess
 from pymongo import MongoClient
 
-#Conexion a MongoDB y creacion de coleccion
-cliente = MongoClient('mongodb://localhost:27017')
-db = cliente['Materiales_odontologia']
-coleccion = db['Anton_SD']
+
 
 
 class Producto(Item):
@@ -16,6 +13,7 @@ class Producto(Item):
     categoria = Field()
     subcategoria = Field()
     marca = Field()
+    imagen = Field()
     url = Field()
     precio = Field()
 
@@ -27,6 +25,9 @@ class WebAntonSD(CrawlSpider):
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
                      'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
+        'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610},
+        'ZYTE_SMARTPROXY_ENABLED': True,
+        'ZYTE_SMARTPROXY_API_KEY': '<KEY>',
         'ITEM PIPELINES': {
             'antonSD.MongoDBPipeline': 300,
         }
@@ -65,6 +66,7 @@ class WebAntonSD(CrawlSpider):
         item['subcategoria'] = subcategoria
         marca= response.xpath(".//div[@class='shop-product-info']//h3/text()").get()
         item['marca'] = marca if marca else 'sin marca'
+        item['imagen'] = response.xpath(".//div[@class='shop-product-images']//img/@src").get()
         item['url'] = response.xpath(".//meta[@property='og:url']/@content").get()
         precio = response.xpath(".//ul[@class='shop-product-precios']//span/text()|ul[@class='shop-product-precios']//input[@id='offer_price']/@value").get()
         item['precio'] = float(precio.replace('€', '').replace(",", '.').rstrip('.0')) if precio else 'Precio no disponible'
@@ -74,6 +76,8 @@ class WebAntonSD(CrawlSpider):
 
 # Pipeline para guardar datos extraidos en coleccion de MongoDB
 class MongoDBPipeline:
+
+
     def __init__(self):
         self.cliente = MongoClient('localhost', 27017)
         self.db = self.cliente['Materiales_odontologia']

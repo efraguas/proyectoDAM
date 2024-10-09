@@ -18,6 +18,7 @@ class Producto(Item):
     categoria = Field()
     subcategoria = Field()
     marca = Field()
+    imagen = Field()
     url = Field()
     precio = Field()
 
@@ -25,6 +26,9 @@ class WebProclinic(CrawlSpider):
     name = 'Proclinic'
     custom_settings = {
         'FEED_EXPORT_ENCODING': 'utf-8',
+        'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610},
+        'ZYTE_SMARTPROXY_ENABLED': True,
+        'ZYTE_SMARTPROXY_API_KEY': '<KEY>',
         'ITEM PIPELINES': {
             'proclinic.MongoDBPipeline': 300,
         }
@@ -47,6 +51,7 @@ class WebProclinic(CrawlSpider):
         item['subcategoria'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-subfamily").get()
         item['marca'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-brand").get()
         item['url'] = response.xpath("//meta[@property='og:url']/@content").get()
+        item['imagen'] = response.xpath(".//div[@class='product-view__gallery-images']/img/@src").get()
         precio = response.xpath(".//div[@class='product-view product-view--grouped']/@data-price").get()
         item['precio'] = float(precio.replace('€', '').replace(",", '.').rstrip('.0')) if precio else 'Precio no disponible'
         yield item

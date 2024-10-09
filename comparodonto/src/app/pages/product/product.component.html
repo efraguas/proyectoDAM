@@ -1,0 +1,45 @@
+<div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      @if(products.length === 0){
+        <div class="alert alert-warning text-center">
+          No hay productos que mostrar
+        </div>
+      }@else{
+        <table class="table table-hover table-striped">
+          <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Marca</th>
+            <th>Precio</th>
+            <th>Url</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for(product of products; track $index){
+              <tr>
+                <img src="{{product.imagen}}" alt="Foto del producto">
+              </tr>
+              <tr>
+                <td>{{ product.nombre }}</td>
+              </tr>
+              <tr>
+                <td>{{ product.categoria }}</td>
+                <td>{{ product.marca }}</td>
+              </tr>
+              <tr>
+                <td>{{ product.precio}}</td>
+              </tr>
+              <tr>
+                <td>{{ product.url}}</td>
+              </tr>
+
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</div>

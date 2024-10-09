@@ -15,6 +15,7 @@ class Producto(Item):
     nombre = Field()
     categoria = Field()
     subcategoria = Field()
+    imagen = Field()
     marca = Field()
     url = Field()
     precio = Field()
@@ -28,6 +29,9 @@ class WebIberica(CrawlSpider):
         'FEED_EXPORT_ENCODING': 'utf-8',
         'COOKIES_ENABLED': True,
         'CLOSESPIDER_PAGECOUNT': 1063,
+        'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610},
+        'ZYTE_SMARTPROXY_ENABLED': True,
+        'ZYTE_SMARTPROXY_API_KEY': '<KEY>',
         'DEFAULT_REQUEST_HEADERS': {
             'Referer': 'https://dentaliberica.com',
             'Accept-Language': 'es',
@@ -68,6 +72,7 @@ class WebIberica(CrawlSpider):
         item['categoria'] = response.xpath(".//ol/li[3]//span/text()").get()
         item['subcategoria'] = response.xpath(".//ol/li[4]//span/text()").get()
         item['marca'] = response.xpath(".//div[@class='product-manufacturer']//span/text()").get()
+        item['imagen'] = response.xpath(".//img[@class='js-qv-product-cover']/@src").get()
         item['url'] = response.xpath(".//meta[@property='og:url']/@content").get()
         precio = response.xpath(".//meta[@property='product:price:amount']/@content").get()
         item['precio'] = float(precio.replace('€', '').replace(",", '.').rstrip('.0')) if precio else 'Precio no disponible'

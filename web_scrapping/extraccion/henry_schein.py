@@ -7,6 +7,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from urllib.parse import urljoin
+
+#variable con url base
+url_base = 'https://www.henryschein.es'
 
 # Funcion para eliminar simbolo de euro del texto precio y puntos separadores excepto
 # decimal
@@ -98,6 +102,8 @@ for url_categoria in links_categorias:
                                                             "//div[@class='breadcrumb  no-featured-offers']//li[5]//span").text
                             subcategoria = driver.find_element(By.XPATH,
                                                                "//div[@class='breadcrumb  no-featured-offers']//li[7]//span").text
+                            url_relativa = driver.find_element(By.ID, '//img[@id="ctl00_cphMainContentHarmony_ucProductAssets_rptTopImages_ctl01_imgTop"]').get_attribute("src")
+                            imagen = urljoin(url_base, url_relativa)
                             marca = driver.find_element(By.XPATH, '//div[@class="breadcrumb  no-featured-offers"]//ol//li[9]/span').text
                             precio = driver.find_element(By.XPATH, "//span[@class='amount x-small']").text
                             url = driver.find_element(By.XPATH, "//meta[@itemprop='item']").get_attribute("content")
@@ -108,7 +114,7 @@ for url_categoria in links_categorias:
 
                             # Convertir y formatear precio con funcion convertir_precio()
                             convertir_precio(precio)
-                            print(f"extraccion de {nombre,categoria,subcategoria,marca,precio,url} correcta")
+                            print(f"extraccion de {nombre,categoria,subcategoria,marca,imagen,precio,url} correcta")
                             # Creo un diccionario item para guardar la informacion y tranferirla luego a la coleccion
                             # de MongoDb
                             item = {
@@ -116,6 +122,7 @@ for url_categoria in links_categorias:
                                 "categoria": categoria,
                                 "subcategoria": subcategoria,
                                 "marca": formateo_marca(marca),
+                                "imagen": imagen,
                                 "precio": convertir_precio(precio),
                                 "url": url
                             }
@@ -141,6 +148,9 @@ for url_categoria in links_categorias:
                                                                "//div[@class='breadcrumb  no-featured-offers']//li[7]//span").text
                             marca = driver.find_element(By.XPATH,
                                                         '//div[@class="breadcrumb  no-featured-offers"]//ol//li[9]/span').text
+                            url_relativa = driver.find_element(By.ID,
+                                                               '//img[@id="ctl00_cphMainContentHarmony_ucProductAssets_rptTopImages_ctl01_imgTop"]').get_attribute("src")
+                            imagen = urljoin(url_base, url_relativa)
                             precio = driver.find_element(By.XPATH, "//span[@class='large color-quaternary custom-style-price']").text
                             url = driver.find_element(By.XPATH, "//meta[@itemprop='item']").get_attribute("content")
 
@@ -156,6 +166,7 @@ for url_categoria in links_categorias:
                                 "categoria": categoria,
                                 "subcategoria": subcategoria,
                                 "marca": formateo_marca(marca),
+                                "imagen": imagen,
                                 "precio": convertir_precio(precio),
                                 "url": url
                             }
