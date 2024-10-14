@@ -31,4 +31,8 @@ export class ByNameComponent {
       })
   }
 
+  onClick() : void {
+
+  }
+
 }

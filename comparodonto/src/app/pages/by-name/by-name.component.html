@@ -11,7 +11,7 @@
   <div class="row">
     <div class="col">
       @if(products.length === 0){
-        <div class="alert alert-warning text-center">
+        <div class="alert alert-warning text-center text-dark">
           No hay productos que mostrar
         </div>
       }@else{
@@ -22,7 +22,7 @@
             <th>Categoría</th>
             <th>Marca</th>
             <th>Precio</th>
-            <th>Url</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -33,7 +33,7 @@
             <td>{{ product.marca }}</td>
             <td>{{ product.precio }}</td>
             <td>
-              <button>Ver Detalle</button>
+              <button class="btn btn-outline-primary" type="button">Detalle</button>
             </td>
           </tr>
           }

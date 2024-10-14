@@ -20,8 +20,6 @@ class Product:
             return 0.0
 
 
-
-
     #Metodo para convertir Product en un diccionario:
     def to_dict(self):
         return {
