@@ -12,7 +12,7 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
 })
 export class SelectBoxComponent {
 
-  public selector: FormControl<string | null> = new FormControl<string | null>('nombre');
+  public selector: FormControl<string | null> = new FormControl<string | null>('Seleccionar');
 
   @Output() changeSelection: EventEmitter<string | null> = new EventEmitter<string | null>();
 
