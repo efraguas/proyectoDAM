@@ -22,7 +22,8 @@ export class ByCategoriaComponent {
 
   //metodo para suscribirse al Observable y recuperar los resultados que emite
 
-  getByCategoria(categoria: string):void {
+    getByCategoria(categoria: string | null):void {
+    if(categoria)
     this.producService.filterCategoria(categoria)
       .subscribe(products=>{
         this.products = products;

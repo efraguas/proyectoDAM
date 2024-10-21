@@ -1,17 +1,18 @@
 <div>
   <hr>
     <div class="row">
-      <div class="col">
+      <div class=" col-2"><select-box (changeSelection)="onSelectionChanged($event)"></select-box></div>
+      <div class="col-10">
         <shared-searchbox
-          (onValue)="getByName($event)"
+          (onValue)="onSearch($event)"
           placeholder="Introduzca producto..."></shared-searchbox>
       </div>
     </div>
   <hr>
   <div class="row">
-    <div class="col">
+    <div class="col-12">
       @if(products.length === 0){
-        <div class="alert alert-warning text-center text-dark">
+        <div class="alert alert-warning text-center text-dark" role="alert">
           No hay productos que mostrar
         </div>
       }@else{
@@ -33,7 +34,7 @@
             <td>{{ product.marca }}</td>
             <td>{{ product.precio }}</td>
             <td>
-              <button class="btn btn-outline-primary" type="button">Detalle</button>
+              <button class="btn btn-outline-primary" type="button" (click)="detalle(product._id)">Detalle</button>
             </td>
           </tr>
           }

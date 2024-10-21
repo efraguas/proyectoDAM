@@ -21,7 +21,8 @@ export class ByMarcaComponent {
 
   //metodo para suscribirse al Observable y recuperar los resultados que emite
 
-  getByMarca(marca: string):void {
+  getByMarca(marca: string | null):void {
+    if(marca)
     this.producService.filterMarca(marca)
       .subscribe(products =>{
         this.products = products;

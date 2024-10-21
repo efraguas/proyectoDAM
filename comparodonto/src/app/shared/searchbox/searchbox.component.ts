@@ -1,4 +1,5 @@
 import {Component,EventEmitter,Input, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'shared-searchbox',
@@ -9,14 +10,12 @@ import {Component,EventEmitter,Input, Output} from '@angular/core';
 })
 export class SearchboxComponent {
 
-
-  @Input()
-  public placeholder: string ='';
-
   @Output()
-  public onValue = new EventEmitter<string>();
+  public onValue : EventEmitter<string> = new EventEmitter<string>();
 
   emitValue (value : string) : void {
     this.onValue.emit(value);
   }
+
+
 }

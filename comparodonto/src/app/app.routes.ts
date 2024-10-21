@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import {ByNameComponent} from './pages/by-name/by-name.component';
+import {ComparoDontoComponent} from './pages/comparo-donto/comparo-donto.component';
 import {ByCategoriaComponent} from './pages/by-categoria/by-categoria.component';
 import {ByMarcaComponent} from './pages/by-marca/by-marca.component';
 import {HomeComponent} from './pages/home/home.component';
@@ -13,13 +13,8 @@ export const routes: Routes = [
   //Ruta para filtrar productos por nombre
   {
     path: 'byName',
-    component: ByNameComponent,
-    children: [
-      {
-        path: 'product',
-        component: ProductComponent
-      },
-    ]
+    component: ComparoDontoComponent,
+
   },
   {
     path: 'byCategoria',
