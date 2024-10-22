@@ -3,7 +3,7 @@ import {Product} from '../../interface/product';
 import {ProductService} from '../../services/product.service';
 import {SearchboxComponent} from '../../shared/searchbox/searchbox.component';
 import {CurrencyPipe} from '@angular/common';
-import {ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {SelectBoxComponent} from '../../shared/select-box/select-box.component';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -32,8 +32,7 @@ export class ComparoDontoComponent {
   public selector: FormControl<string| null> = new FormControl<string | null>(null);
 
   constructor(private router: Router,
-              private productService: ProductService,
-              private route: ActivatedRoute) {
+              private productService: ProductService) {
   }
 
   //metodo para gestionar el cambio del selector
@@ -94,13 +93,14 @@ export class ComparoDontoComponent {
 
 
   }
-
+  //Metodo para navegar a la pantalla de detalle de producto
   detalle(id: string): void {
     // Navegar a la página del producto usando el ID
     console.log("ID:", id)
-    this.router.navigate([`byName/${id}`]);
+    this.router.navigate([`by/${id}`]);
   }
 
+  //Metodo para mostrar mensaje de error
   showError(mensaje: string): void {
     Swal.fire({
       title: "Error!",

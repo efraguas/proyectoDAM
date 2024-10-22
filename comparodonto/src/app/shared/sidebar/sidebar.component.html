@@ -1,17 +1,22 @@
 <div>
   <ul class="list-group">
     <li class="list-group-item"
-        routerLink="byName"
+        routerLink="home"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact : true}">
+      Home
+    </li><li class="list-group-item"
+        routerLink="comparador"
         routerLinkActive="active">
-      Nombre
+      Comparador
     </li>
     <li class="list-group-item"
-        routerLink="byMarca"
+        routerLink="marca"
         routerLinkActive="active">
       Marca
     </li>
     <li class="list-group-item"
-        routerLink="byCategoria"
+        routerLink="categoria"
         routerLinkActive="active">
       Categoria
     </li>

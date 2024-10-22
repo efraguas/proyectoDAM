@@ -7,26 +7,29 @@ import {ProductComponent} from './pages/product/product.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
   },
   //Ruta para filtrar productos por nombre
   {
-    path: 'byName',
+    path: 'comparador',
     component: ComparoDontoComponent,
-
   },
   {
-    path: 'byCategoria',
+    path: 'categoria',
     component: ByCategoriaComponent,
   },
   {
-    path: 'byMarca',
+    path: 'marca',
     component: ByMarcaComponent,
+  },
+  {
+    path: 'by/:id',
+    component: ProductComponent,
   },
   // Ruta para cualquier página no encontrada
   { path: '**',
-    redirectTo: '',
+    redirectTo: 'home',
     pathMatch: 'full',
   }
 ];

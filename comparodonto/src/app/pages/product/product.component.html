@@ -1,45 +1,56 @@
-<div>
-  <hr>
-  <div class="row">
-    <div class="col">
-      @if(products.length === 0){
-        <div class="alert alert-warning text-center">
-          No hay productos que mostrar
-        </div>
-      }@else{
-        <table class="table table-hover table-striped">
-          <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Categoría</th>
-            <th>Marca</th>
-            <th>Precio</th>
-            <th>Url</th>
-          </tr>
-          </thead>
-          <tbody>
-            @for(product of products; track $index){
-              <tr>
-                <img src="{{product.imagen}}" alt="Foto del producto">
-              </tr>
-              <tr>
-                <td>{{ product.nombre }}</td>
-              </tr>
-              <tr>
-                <td>{{ product.categoria }}</td>
-                <td>{{ product.marca }}</td>
-              </tr>
-              <tr>
-                <td>{{ product.precio}}</td>
-              </tr>
-              <tr>
-                <td>{{ product.url}}</td>
-              </tr>
-
-            }
-          </tbody>
-        </table>
-      }
+<!--<div>-->
+<!--  <hr>-->
+<!--  <div class="row">-->
+<!--    <div class="col">-->
+<!--        <table class="table table-hover table-striped">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>Nombre</th>-->
+<!--            <th>Categoría</th>-->
+<!--            <th>Marca</th>-->
+<!--            <th>Precio</th>-->
+<!--            <th>Url</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr>-->
+<!--            <td>{{ product?.nombre }}</td>-->
+<!--            <td>{{ product?.categoria }}</td>-->
+<!--            <td>{{ product?.marca }}</td>-->
+<!--            <td>{{ product?.precio }}</td>-->
+<!--            <td>-->
+<!--              <a [href]="product?.url" target="_blank">-->
+<!--              <button class="btn btn-outline-primary" type="button">Url</button>-->
+<!--              </a>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<div class="container-fluid position-absolute">
+  <div class="card" style="width: 40rem; height: 30rem">
+    <img src="{{product?.imagen}}" class="card-img-top img-fluid" alt="imagen">
+    <div class="card-body">
+      <hr>
+      <h5 class="card-title">{{ product?.nombre }}</h5>
+      <hr>
+      <div class="d-flex justify-content-between">
+        <p class="card-text fw-bold">Categoría:</p>
+        <p class="card-text">{{ product?.categoria }}</p>
+      </div>
+      <div class="d-flex justify-content-between">
+        <p class="card-text fw-bold">Marca:</p>
+        <p class="card-text">{{ product?.marca }}</p>
+      </div>
+      <div class="d-flex justify-content-between">
+        <p class="card-text fw-bold">Precio:</p>
+        <p class="card-text">{{ product?.precio }} €</p> <!-- Formatear el precio como moneda -->
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        <a href="{{ product?.url }}" target="_blank" class="btn btn-primary">Visitar Producto</a>
+      </div>
     </div>
   </div>
 </div>
