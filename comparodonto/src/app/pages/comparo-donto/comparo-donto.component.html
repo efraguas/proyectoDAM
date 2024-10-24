@@ -9,7 +9,7 @@
           placeholder="Introduzca producto..."></shared-searchbox>
       </div>
     </div>
-  <hr>
+  <hr class="border-primary">
   <div class="row">
     <div class="col-12">
       @if(products.length === 0){
@@ -33,9 +33,9 @@
             <td>{{ product.nombre }}</td>
             <td>{{ product.categoria }}</td>
             <td>{{ product.marca }}</td>
-            <td>{{ product.precio }}</td>
+            <td>{{ product.precio }} €</td>
             <td>
-              <button class="btn btn-outline-primary" type="button" (click)="detalle(product._id)">Detalle</button>
+              <button class="btn btn-outline-primary rounded-pill" type="button" (click)="detalle(product._id)">Detalle</button>
             </td>
           </tr>
           }

@@ -1,13 +1,13 @@
 <div class="input-group">
   <div class="row w-100">
     <div class="col-10">
-      <input type="text"
+      <input type="search"
              class="form-control"
              (keyup.enter)="emitValue(textInput.value)"
              #textInput>
     </div>
     <div class="col-2">
-      <button class="btn btn-primary w-100" type="button" (click)="emitValue(textInput.value)">Buscar</button>
+      <button class="btn btn-outline-primary w-100 rounded-pill" type="submit" (click)="emitValue(textInput.value)">Buscar</button>
     </div>
   </div>
 </div>
