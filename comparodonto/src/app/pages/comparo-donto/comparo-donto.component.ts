@@ -7,10 +7,9 @@ import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {SelectBoxComponent} from '../../shared/select-box/select-box.component';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import Swal from 'sweetalert2';
-import {BotonComponent} from '../../shared/boton/boton.component';
 
 @Component({
-  selector: 'app-by-name',
+  selector: 'app-comparo-donto',
   standalone: true,
   imports: [
     SearchboxComponent,
@@ -18,7 +17,6 @@ import {BotonComponent} from '../../shared/boton/boton.component';
     RouterOutlet,
     RouterLink,
     SelectBoxComponent,
-    BotonComponent,
     ReactiveFormsModule
   ],
   templateUrl: './comparo-donto.component.html',
