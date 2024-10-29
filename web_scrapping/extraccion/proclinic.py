@@ -10,7 +10,7 @@ from pymongo import MongoClient
 #Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
-coleccion = db['Proclinic']
+coleccion = db['Productos']
 
 
 class Producto(Item):
@@ -62,7 +62,7 @@ class MongoDBPipeline:
     def __init__(self):
         self.cliente = MongoClient('localhost', 27017)
         self.db = self.cliente['Materiales_odontologia']
-        self.collection = self.db['Proclinic']
+        self.collection = self.db['Productos']
 
 # Metodo para efectuar el guardado y actualizacion de valores
     def process_item(self, item, spider):

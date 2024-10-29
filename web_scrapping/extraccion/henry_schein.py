@@ -38,7 +38,7 @@ def formateo_marca(text):
 # Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
-coleccion = db['Henry_schein']
+coleccion = db['Productos']
 
 # objeto options donde definiremos user agent y headlees mode para operar sin abrir el navegador
 options = Options()

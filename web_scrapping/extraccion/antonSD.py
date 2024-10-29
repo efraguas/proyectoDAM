@@ -81,7 +81,7 @@ class MongoDBPipeline:
     def __init__(self):
         self.cliente = MongoClient('localhost', 27017)
         self.db = self.cliente['Materiales_odontologia']
-        self.collection = self.db['antonSD']
+        self.collection = self.db['Productos']
 
     # Metodo para efectuar el guardado y actualizacion de valores
     def process_item(self, item, spider):
