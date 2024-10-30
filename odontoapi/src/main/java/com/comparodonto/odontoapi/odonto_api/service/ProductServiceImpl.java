@@ -1,5 +1,4 @@
 package com.comparodonto.odontoapi.odonto_api.service;
-
 import com.comparodonto.odontoapi.odonto_api.Models.Productos;
 import com.comparodonto.odontoapi.odonto_api.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +17,11 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Optional<Productos> get_producto_id(String id) {
-        return Optional.empty();
+        return productRepository.findById(id);
     }
 
     @Override
-    public List<String> get_productos() {
+    public List<Productos> get_productos() {
         return productRepository.findAll();
     }
 
