@@ -10,7 +10,7 @@ from pymongo import MongoClient
 #Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
-coleccion = db['Productos']
+coleccion = db['Proclinic']
 
 
 class Producto(Item):
@@ -25,10 +25,12 @@ class Producto(Item):
 class WebProclinic(CrawlSpider):
     name = 'Proclinic'
     custom_settings = {
+        'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
         'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610},
         'ZYTE_SMARTPROXY_ENABLED': True,
-        'ZYTE_SMARTPROXY_API_KEY': '<KEY>',
+        'ZYTE_SMARTPROXY_API_KEY': '23ef2fc5c6e54e71a06b47e92ca203db',
         'ITEM PIPELINES': {
             'proclinic.MongoDBPipeline': 300,
         }
@@ -51,7 +53,7 @@ class WebProclinic(CrawlSpider):
         item['subcategoria'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-subfamily").get()
         item['marca'] = response.xpath(".//div[@class='product-view product-view--grouped']/@data-brand").get()
         item['url'] = response.xpath("//meta[@property='og:url']/@content").get()
-        item['imagen'] = response.xpath(".//div[@class='product-view__gallery-images']/img/@src").get()
+        item['imagen'] = response.xpath(".//meta[@property='og:image']/@content").get()
         precio = response.xpath(".//div[@class='product-view product-view--grouped']/@data-price").get()
         item['precio'] = float(precio.replace('€', '').replace(",", '.').rstrip('.0')) if precio else 'Precio no disponible'
         yield item
@@ -62,7 +64,7 @@ class MongoDBPipeline:
     def __init__(self):
         self.cliente = MongoClient('localhost', 27017)
         self.db = self.cliente['Materiales_odontologia']
-        self.collection = self.db['Productos']
+        self.collection = self.db['Proclinic']
 
 # Metodo para efectuar el guardado y actualizacion de valores
     def process_item(self, item, spider):

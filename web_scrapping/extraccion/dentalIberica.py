@@ -8,7 +8,7 @@ from pymongo import MongoClient
 # Conexion a MongoDB y creacion de coleccion
 cliente = MongoClient('mongodb://localhost:27017')
 db = cliente['Materiales_odontologia']
-coleccion = db['Productos']
+coleccion = db['dental_Iberica']
 
 
 class Producto(Item):
@@ -25,25 +25,19 @@ class Producto(Item):
 class WebIberica(CrawlSpider):
     name = 'dentaliberica'
     custom_settings = {
-        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6438.69 Safari/537.36',
+        'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
+                     'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
-        'COOKIES_ENABLED': True,
-        'CLOSESPIDER_PAGECOUNT': 1063,
-        'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610},
+        'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610,
+                                   'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': None,},
         'ZYTE_SMARTPROXY_ENABLED': True,
-        'ZYTE_SMARTPROXY_API_KEY': '<KEY>',
-        'DEFAULT_REQUEST_HEADERS': {
-            'Referer': 'https://dentaliberica.com',
-            'Accept-Language': 'es',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive',
-        },
+        'ZYTE_SMARTPROXY_API_KEY': '23ef2fc5c6e54e71a06b47e92ca203db',
         'ITEM PIPELINES': {
             'dentalIberica.MongoDBPipeline': 300,
         }
     }
 
-    start_urls = ['https://dentaliberica.com/es']
+    start_urls = ['https://dentaliberica.com/es/clinica']
 
 # Evitar salirse del dominio
     allowed_domains = ['dentaliberica.com']
@@ -84,7 +78,7 @@ class MongoDBPipeline:
     def __init__(self):
         self.cliente = MongoClient('localhost', 27017)
         self.db = self.cliente['Materiales_odontologia']
-        self.collection = self.db['Productos']
+        self.collection = self.db['dental_Iberica']
 
 # Metodo para efectuar el guardado y actualizacion de valores
     def process_item(self, item, spider):

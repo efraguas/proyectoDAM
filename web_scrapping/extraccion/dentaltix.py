@@ -12,9 +12,10 @@ class Dentaltix(CrawlSpider):
         'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) '
                      'Chrome/113.0.0.0 Safari/537.36',
         'FEED_EXPORT_ENCODING': 'utf-8',
-        'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610},
+        'DOWNLOADER_MIDDLEWARES': {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610,
+                                   'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': None,},
         'ZYTE_SMARTPROXY_ENABLED': True,
-        'ZYTE_SMARTPROXY_API_KEY': '<KEY>',
+        'ZYTE_SMARTPROXY_API_KEY': '23ef2fc5c6e54e71a06b47e92ca203db',
         'ITEM PIPELINES': {
             'dentaltix.MongoDBPipeline': 300,
         }
