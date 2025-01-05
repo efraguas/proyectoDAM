@@ -1,10 +1,12 @@
 package com.comparodonto.odontoapi.odonto_api.service;
 import com.comparodonto.odontoapi.odonto_api.Models.Productos;
+import com.comparodonto.odontoapi.odonto_api.exception.ProductNotFoundException;
 import com.comparodonto.odontoapi.odonto_api.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 

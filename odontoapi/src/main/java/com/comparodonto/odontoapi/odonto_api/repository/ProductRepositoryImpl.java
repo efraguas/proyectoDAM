@@ -16,10 +16,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Autowired
     private MongoTemplate mongoTemplate;
-
-    //falta metodo findbyid
-
-
     @Override
     public List<Productos> find_nombre_filtrado(String nombre){
         Query query = new Query();
