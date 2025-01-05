@@ -9,7 +9,7 @@ import {Product} from '../interface/product';
 export class ProductService {
 
   //url de la api
-  private apiUrl : string = "http://127.0.0.1:5000/productos";
+  private apiUrl : string = "http://localhost:8080/api/odonto_api";
   constructor(private http: HttpClient) { }
 
 
