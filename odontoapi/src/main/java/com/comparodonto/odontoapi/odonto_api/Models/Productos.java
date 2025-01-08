@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 
-@Document(collection = "Productos") // coleccion de MongoDB que vamos a mapear
+@Document(collection = "productos_odontologicos") // coleccion de MongoDB que vamos a mapear
 @Data // Genera getters, setters, toString, equals, hashCode
 @NoArgsConstructor  // Genera un constructor sin argumentos
 @AllArgsConstructor // Genera un constructor con todos los argumentos
