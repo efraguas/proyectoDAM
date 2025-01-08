@@ -44,6 +44,10 @@ export class ComparoDontoComponent {
   //Metodo para buscar productos y validar
   onSearch(busqueda: string): void {
     this.criterio = this.selector.value;
+    if(this.criterio === null){
+      this.showError('Debe seleccionar un filtro');
+      return;
+    }
     if (!busqueda) {
       this.showError('El valor no puede estar vacio');
       return;
