@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
 import {Product} from '../interface/product';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import {Product} from '../interface/product';
 export class ProductService {
 
   //url de la api
-  private apiUrl : string = "http://localhost:8080/api/odonto_api";
+  private apiUrl : string = environment.apiUrl;
   constructor(private http: HttpClient) { }
 
 
