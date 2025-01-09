@@ -1,17 +1,17 @@
 # Usa una imagen base de Node.js para construir la app
-FROM node:16 AS build
+FROM node:18 AS build
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos del proyecto
-COPY ./angular_app/package.json ./angular_app/package-lock.json /app/
+# Copia los archivos de configuración del proyecto
+COPY package.json package-lock.json ./
 
 # Instala las dependencias de Angular
 RUN npm install
 
-# Copia el resto de los archivos
-COPY ./angular_app /app
+# Copia el resto de los archivos del proyecto
+COPY . .
 
 # Construye la aplicación Angular para producción
 RUN npm run build --prod
@@ -20,7 +20,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copia los archivos generados por Angular en la carpeta de Nginx
-COPY --from=build /app/dist/ /usr/share/nginx/html
+COPY --from=build /app/dist/comparodonto /usr/share/nginx/html
 
 # Expone el puerto 80
 EXPOSE 80

@@ -3,6 +3,7 @@ services:
   backend_api:
     build:
       context: ./backend_api
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     networks:
@@ -13,20 +14,13 @@ services:
   angular_app:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     networks:
       - proyecto-net
     depends_on:
       - backend_api
-
-  scrapy_app:
-    build:
-      context: ./web_scrapping
-    networks:
-      - proyecto-net
-    depends_on:
-      - mongo
 
   mongo:
     image: mongo:latest
