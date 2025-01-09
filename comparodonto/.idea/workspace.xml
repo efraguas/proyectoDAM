@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d5e000f2-e3d4-4a71-b630-ceebdafc2cf5" name="Changes" comment="cambio de uri a mongo atlas">
+      <change afterPath="$PROJECT_DIR$/../backend_api/src/system.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/extensions.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.vscode/extensions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.vscode/tasks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/comparodonto_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/comparodonto_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/dentist.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/dentist.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/outline.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/outline.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tooth-zoom.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/tooth-zoom.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.config.server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.config.server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/interface/product.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/interface/product.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/comparo-donto/comparo-donto.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/comparo-donto/comparo-donto.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/comparo-donto/comparo-donto.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/comparo-donto/comparo-donto.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/comparo-donto/comparo-donto.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/comparo-donto/comparo-donto.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/contact/contact.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/contact/contact.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/contact/contact.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/contact/contact.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/contact/contact.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/contact/contact.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/home/home.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/home/home.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/product/product.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/product/product.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/product/product.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/product/product.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/product/product.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/pages/product/product.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/product.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/services/product.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/navbar/navbar.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/navbar/navbar.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/navbar/navbar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/navbar/navbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/searchbox/searchbox.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/searchbox/searchbox.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/searchbox/searchbox.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/searchbox/searchbox.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/searchbox/searchbox.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/searchbox/searchbox.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/select-box/select-box.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/select-box/select-box.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/select-box/select-box.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/select-box/select-box.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/select-box/select-box.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/shared/select-box/select-box.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/environments/environment.prod.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/environments/environment.prod.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tsconfig.app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tsconfig.spec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/.idea/interfaz.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/.idea/interfaz.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/InterfazComparOdontoAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/InterfazComparOdontoAPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../interfaz/comparadorUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop_app/comparadorUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/.idea/odonto_api.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/controllers/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/controllers/product_controller.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/models/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/models/product.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/repository/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/repository/product_repository.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/service/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/app/service/product_service.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odonto_api/run.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/.gitattributes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/OdontoapiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/OdontoapiApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/Models/Productos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/Models/Productos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/dto/ApiDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/dto/ApiDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/enums/HttpResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/enums/HttpResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/InternalServerErrorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/InternalServerErrorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/ProductException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/ProductException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/ProductNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/exception/ProductNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/repository/ProductRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/repository/ProductRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/repository/ProductRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/repository/ProductRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/java/com/comparodonto/odontoapi/odonto_api/service/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/java/com/comparodonto/odontoapi/odonto_api/service/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../odontoapi/src/test/java/com/comparodonto/odontoapi/OdontoapiApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_api/src/test/java/com/comparodonto/odontoapi/OdontoapiApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_scrapping/extraccion/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web_scrapping/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_scrapping/extraccion/antonSD.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web_scrapping/antonSD.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_scrapping/extraccion/dentalIberica.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web_scrapping/dentalIberica.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_scrapping/extraccion/dentaltix.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web_scrapping/dentaltix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_scrapping/extraccion/henry_schein.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web_scrapping/henry_schein.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_scrapping/extraccion/proclinic.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web_scrapping/proclinic.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2nCPeQO2NFcO3V91fyWXRC8eRQu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/fragu/PycharmProjects/proyecto/backend_api",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.Angular CLI Server.executor": "Run",
+    "ts.external.directory.path": "C:\\Users\\fragu\\PycharmProjects\\proyecto\\comparodonto\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\fragu\PycharmProjects\proyecto\comparodonto\public" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.Angular CLI Server">
+    <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular CLI Server" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d5e000f2-e3d4-4a71-b630-ceebdafc2cf5" name="Changes" comment="" />
+      <created>1728474181322</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1728474181322</updated>
+      <workItem from="1728474183775" duration="10531000" />
+      <workItem from="1728809212496" duration="11187000" />
+      <workItem from="1728912515033" duration="10503000" />
+      <workItem from="1729508742492" duration="45048000" />
+      <workItem from="1729689296015" duration="1920000" />
+      <workItem from="1729751814705" duration="14054000" />
+      <workItem from="1730040893283" duration="629000" />
+      <workItem from="1730237978571" duration="435000" />
+      <workItem from="1732721712185" duration="327000" />
+      <workItem from="1732722156217" duration="2475000" />
+      <workItem from="1732909659687" duration="684000" />
+      <workItem from="1736014867900" duration="15220000" />
+      <workItem from="1736076280095" duration="9042000" />
+      <workItem from="1736322608436" duration="170000" />
+      <workItem from="1736327566957" duration="5676000" />
+      <workItem from="1736340660771" duration="310000" />
+      <workItem from="1736445466982" duration="43000" />
+    </task>
+    <task id="LOCAL-00001" summary="primera version de app web comparador de precios">
+      <option name="closed" value="true" />
+      <created>1728485356152</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728485356152</updated>
+    </task>
+    <task id="LOCAL-00002" summary="agrego selector-box y se cambia la logica de busqueda">
+      <option name="closed" value="true" />
+      <created>1729552029772</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1729552029773</updated>
+    </task>
+    <task id="LOCAL-00003" summary="implementada funcionalidad del boton buscar del searchbox">
+      <option name="closed" value="true" />
+      <created>1729553173444</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729553173444</updated>
+    </task>
+    <task id="LOCAL-00004" summary="implementada funcionalidad del boton detalle, configuracion pantalla detalle de producto,&#10;refactorizacion metodos de product.service.ts">
+      <option name="closed" value="true" />
+      <created>1729637118917</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729637118917</updated>
+    </task>
+    <task id="LOCAL-00005" summary="cambios en el app.routes&#10;y refactorizacion y eliminacion e carpetas categoria, marca y boton">
+      <option name="closed" value="true" />
+      <created>1729755587750</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729755587750</updated>
+    </task>
+    <task id="LOCAL-00006" summary="configuracion y diseño del navbar">
+      <option name="closed" value="true" />
+      <created>1729783035606</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1729783035606</updated>
+    </task>
+    <task id="LOCAL-00007" summary="UI de la appde escritorio con uso de API Rest">
+      <option name="closed" value="true" />
+      <created>1736113202613</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1736113202613</updated>
+    </task>
+    <task id="LOCAL-00008" summary="cambio de la url de la api y correccion del campo id del modelo">
+      <option name="closed" value="true" />
+      <created>1736113310109</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1736113310109</updated>
+    </task>
+    <task id="LOCAL-00009" summary="actualizacion del data bindind del id en el product html">
+      <option name="closed" value="true" />
+      <created>1736113363647</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736113363647</updated>
+    </task>
+    <task id="LOCAL-00010" summary="cambiosen la extraccion de datos">
+      <option name="closed" value="true" />
+      <created>1736113409432</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1736113409432</updated>
+    </task>
+    <task id="LOCAL-00011" summary="manejo de errores de la API">
+      <option name="closed" value="true" />
+      <created>1736113447982</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1736113447982</updated>
+    </task>
+    <task id="LOCAL-00012" summary="manejo de errores de la API">
+      <option name="closed" value="true" />
+      <created>1736113463562</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1736113463562</updated>
+    </task>
+    <task id="LOCAL-00013" summary="incluir variables de entorno para url de la api">
+      <option name="closed" value="true" />
+      <created>1736332474868</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736332474868</updated>
+    </task>
+    <task id="LOCAL-00014" summary="incluye alerta para seleccion de filtro en la busqueda">
+      <option name="closed" value="true" />
+      <created>1736332547010</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1736332547010</updated>
+    </task>
+    <task id="LOCAL-00015" summary="cambio de uri a mongo atlas">
+      <option name="closed" value="true" />
+      <created>1736332603214</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1736332603214</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">web_scrapping</option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="primera version de app web comparador de precios" />
+    <MESSAGE value="agrego selector-box y se cambia la logica de busqueda" />
+    <MESSAGE value="implementada funcionalidad del boton buscar del searchbox" />
+    <MESSAGE value="implementada funcionalidad del boton detalle, configuracion pantalla detalle de producto,&#10;refactorizacion metodos de product.service.ts" />
+    <MESSAGE value="cambios en el app.routes&#10;y refactorizacion y eliminacion e carpetas categoria, marca y boton" />
+    <MESSAGE value="configuracion y diseño del navbar" />
+    <MESSAGE value="UI de la appde escritorio con uso de API Rest" />
+    <MESSAGE value="cambio de la url de la api y correccion del campo id del modelo" />
+    <MESSAGE value="actualizacion del data bindind del id en el product html" />
+    <MESSAGE value="cambiosen la extraccion de datos" />
+    <MESSAGE value="manejo de errores de la API" />
+    <MESSAGE value="incluir variables de entorno para url de la api" />
+    <MESSAGE value="incluye alerta para seleccion de filtro en la busqueda" />
+    <MESSAGE value="cambio de uri a mongo atlas" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambio de uri a mongo atlas" />
+  </component>
+</project>
