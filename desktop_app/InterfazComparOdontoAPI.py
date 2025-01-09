@@ -14,7 +14,7 @@ class ComparOdontoUI:
         # Url de la api
         self.api_url = "http://localhost:8080/api/odonto_api"
 
-        # Configuración de la interfaz
+        # Configuración de la desktop_app
         self.frame = tk.Frame(interfaz)
         self.frame.pack(expand=True, pady=10, fill=tk.BOTH)
 

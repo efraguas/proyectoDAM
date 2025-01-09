@@ -62,9 +62,10 @@ class MongoDBPipeline:
 
 
     def __init__(self):
-        self.cliente = MongoClient('localhost', 27017)
-        self.db = self.cliente['Materiales_odontologia']
-        self.collection = self.db['Productos']
+        mongo_uri = "mongodb+srv://efraguas:<fraguas17>@materiales-odontologia.fkhm2.mongodb.net/?retryWrites=true&w=majority&appName=materiales-odontologia"
+        self.cliente = MongoClient(mongo_uri)
+        self.db = self.cliente['materiales-odontologia']
+        self.collection = self.db['productos_odontologicos']
 
     # Metodo para efectuar el guardado y actualizacion de valores
     def process_item(self, item, spider):

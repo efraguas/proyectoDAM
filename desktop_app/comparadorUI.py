@@ -17,7 +17,7 @@ class ComparadorUI:
         # Lista de colecciones a buscar
         self.colecciones = ['antonSD', 'Proclinic', 'dental_Iberica', 'Henry_schein']
 
-        # Configuración de la interfaz
+        # Configuración de la desktop_app
         self.frame = tk.Frame(interfaz)
         self.frame.pack(expand=True, pady=10, fill=tk.BOTH)
 
