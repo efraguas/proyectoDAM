@@ -1,0 +1,21 @@
+# Usa una imagen de Python
+FROM python:3.9-slim
+
+# Instala Chromium y el driver de Selenium
+RUN apt-get update && apt-get install -y \
+    chromium \
+    chromium-driver
+
+# Establecer las variables de entorno para Selenium y Chromium
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROMEDRIVER=/usr/bin/chromium-driver
+
+# Copia el código de Scrapy/Selenium
+WORKDIR /app
+COPY ./web_scrapping /app/web_scrapping
+
+# Instalar las dependencias necesarias (Scrapy, Selenium, etc.)
+RUN pip install -r requirements.txt
+
+# Comando para ejecutar los scripts de Scrapy
+CMD ["scrapy", "crawl", "mi_spider"]

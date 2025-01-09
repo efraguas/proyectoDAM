@@ -1,0 +1,41 @@
+
+services:
+  backend_api:
+    build:
+      context: ./backend_api
+    ports:
+      - "8080:8080"
+    networks:
+      - proyecto-net
+    depends_on:
+      - mongo
+
+  angular_app:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    networks:
+      - proyecto-net
+    depends_on:
+      - backend_api
+
+  scrapy_app:
+    build:
+      context: ./web_scrapping
+    networks:
+      - proyecto-net
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - proyecto-net
+
+networks:
+  proyecto-net:
+    driver: bridge
