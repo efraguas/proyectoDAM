@@ -1,5 +1,5 @@
 # Usa la imagen oficial de OpenJDK para ejecutar la app
-FROM openjdk:17-jdk-slim
+FROM openjdk:23-jdk-slim
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
