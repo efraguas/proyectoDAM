@@ -5,7 +5,7 @@ FROM openjdk:23-jdk-slim
 WORKDIR /app
 
 # Copia el archivo JAR desde tu máquina local al contenedor
-COPY target/* /app/odonto_api.jar
+COPY target/odontoapi-0.0.1-SNAPSHOT.jar /app/odonto_api.jar
 
 # Expone el puerto 8080 donde Spring Boot escuchará
 EXPOSE 8080
